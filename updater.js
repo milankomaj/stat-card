@@ -8,7 +8,7 @@ import SVGO from 'svgo'; // 🔶
 // console.log("✅ networkInterfaces:", networkInterfaces)
 // console.log("✅ process.env:", process.env)
 // console.log("✅ process.argv:", process.argv)
-
+console.log("✅ process.env.CI:", process.env.CI)
 const args = process.argv.slice(2); //🔶  Remove node and script paths
 const argSvgo = String(args.includes('-svgo'));
 const useSvgo = argSvgo ? argSvgo : ''; //
