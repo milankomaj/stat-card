@@ -233,7 +233,7 @@ class GithubUser {
         }));
         octokit.log.debug("✅ json.lang.length:", Object.values(lang).length);
         //------------------------------
-        if (logs === 'default') { util.stopSpinnerAndTimer() } // 🔶
+        if (logs === 'default' && !process.env.CI) { util.stopSpinnerAndTimer() } // 🔶
         console.table(languageResults);
         let progress = "";
         let langList = "";
