@@ -18,7 +18,7 @@ jobs:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       ACCESS_TOKEN: ${{secrets.ACCESS_TOKEN}}
       GITHUB_owner: ${{github.repository_owner}}
-      FORCE_COLOR: true
+      FORCE_COLOR: 3
 
     defaults:
       run:
@@ -43,7 +43,7 @@ jobs:
       id: npm
       run: |
        npm install --save
-       
+
 
     - name: update
       id: update
