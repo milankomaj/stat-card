@@ -47,7 +47,6 @@ jobs:
     - name: update
       id: update
       run: |
-       export TERM=xterm-color
        npm run update
 
     - name: check
