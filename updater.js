@@ -9,12 +9,12 @@ import SVGO from 'svgo'; // 🔶
 // console.log("✅ process.env:", process.env)
 
 
-const args = process.argv.slice(2); //🔶  Remove node and script paths 
+const args = process.argv.slice(2); //🔶  Remove node and script paths
 const argSvgo = String(args.includes('-svgo'));
 const useSvgo = argSvgo ? argSvgo : ''; //
 console.info("✅ useSvgo:", useSvgo)
 
-let username = process.argv[2];
+let username = process.env.GITHUB_owner;
 let user = new GithubUser(username);
 
 let templateOverview = readFileSync("templates/overview.svg", 'utf-8');
