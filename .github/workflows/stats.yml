@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      GITHUB_owner: ${{ github.repository_owner }}
     defaults:
       run:
         shell: bash
