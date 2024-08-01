@@ -40,7 +40,7 @@ jobs:
 
     - name: update
       id: update
-      run: node ./updater.js ${{ github.repository_owner }}} -info -svgo
+      run: npm run update
 
     - name: check
       id: check
