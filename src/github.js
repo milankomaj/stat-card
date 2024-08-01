@@ -58,7 +58,7 @@ class GithubUser {
 
   async fetchContent() {
     this.octocat = await octokit.request("GET /octocat");
-    console.log(util.color.randomColorANSI(util.arrayBufferToAsciiString(this.octocat.data)));
+    console.log(util.color.magenta(util.arrayBufferToAsciiString(this.octocat.data)));
 
     this.userContent = await octokit.request("GET /users/{username}", {
       username: this.userName,
