@@ -69,7 +69,7 @@ class GithubUser {
     });
     this.rateLimit = await octokit.request("GET /rate_limit", {});
 
-    if (logs === 'default') { util.startSpinnerAndTimer() } // 🔶
+    if (logs === 'default' && !process.env.CI) { util.startSpinnerAndTimer() } // 🔶
 
     this.years = await fechYears(this.userName); // 🟠
     const yearsCount = this.years.map((element) => (element)) // 🟠

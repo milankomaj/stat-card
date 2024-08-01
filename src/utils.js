@@ -41,7 +41,8 @@ export function startSpinnerAndTimer() {
     const terminalWidth = process.stdout.columns;
     process.stdout.write('\r'.repeat(terminalWidth));
     frameIndex %= spinnerFrames.length;
-    process.stdout.write(`${color.randomColorANSI(spinnerFrames[frameIndex++])} ${formatTime(elapsedMilliseconds)}`);
+    process.stdout.write(`\x1b[?25l${color.randomColorANSI(spinnerFrames[frameIndex++])} ${formatTime(elapsedMilliseconds)}`);
+    process.stdout.write('\x1b[0G');
   }, 100);
 
   timerId = setInterval(() => {
@@ -53,7 +54,7 @@ export function stopSpinnerAndTimer() {
   clearInterval(spinnerInterval);
   clearInterval(timerId);
   const totalTime = Date.now() - startTime;
-  process.stdout.write(`\r✅ GitHub Statistics (${color.blink(formatTime(totalTime))})\x1b[?25h\n`);
+  process.stdout.write(`\r✅ GitHub Statistics (${color.blink(formatTime(totalTime))})\n\x1b[?25h`);
 }
 // -----------------------------------------------------------------------
 export function arrayBufferToAsciiString(arrayBuffer) {
