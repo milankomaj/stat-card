@@ -15,7 +15,8 @@ jobs:
     permissions: read-all
     env:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      GITHUB_owner: ${{ github.repository_owner }}
+      ACCESS_TOKEN: ${{secrets.ACCESS_TOKEN}}
+      GITHUB_owner: ${{github.repository_owner}}
     defaults:
       run:
         shell: bash

@@ -6,7 +6,7 @@ import { retry } from "@octokit/plugin-retry";
 import { paginateGraphQL } from "@octokit/plugin-paginate-graphql";
 import { lang } from './github-lang-colors.js';
 console.log("✅ Date:", util.color.magenta(new Date(Math.floor(Date.now())).toLocaleDateString())) // toLocaleString
-const token = process.env.GITHUB_TOKEN //🔶 node and action
+const token = process.env.ACCESS_TOKEN //🔶 node and action
 
 
 const args = process.argv.slice(2); //🔶  Remove node and script paths
@@ -20,7 +20,7 @@ const ThrottleOctokit = Octokit.plugin(throttling, retry, paginateGraphQL);
 const octokit = new ThrottleOctokit({
   userAgent: 'stat-card',
   auth: token,
-  retry: { request: { retries: 10, retryAfter: 1, } },
+  retry: { request: { retries: 1, retryAfter: 1, } },
   log: {
     debug: logs === 'debug' ? console.debug : () => { }, // () => { }🔶
     info: logs === 'info' ? console.info : () => { },
