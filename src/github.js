@@ -330,8 +330,7 @@ class GithubUser {
         octokit.log.debug("✅ contributors hasOwn:login :", Object.entries(contributors).map(([index, total, weeks]) => ({
           index,
           total,
-          weeks,
-          author
+          weeks
         }))
         )
         const authenticate = (element => element.author ? element.author.login === username : '')
