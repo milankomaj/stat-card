@@ -330,6 +330,7 @@ class GithubUser {
         octokit.log.debug("✅ contributors hasOwn:login :", Object.entries(contributors).map(([index, total]) => ({
           index,
           total: total.total,
+          weeks: total.weeks.length(),
           author: Object.values(total.author)[0]
         }))
         )
