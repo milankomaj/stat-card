@@ -121,7 +121,6 @@ class GithubUser {
     console.info("✅ this.forks:", this.forks)
     console.info("✅ this.sumA:", this.sumA)
     console.info("✅ this.sumD:", this.sumD)
-    console.info("✅ this.sumSum:", this.sumSum, this.graph)
     console.info("✅ this.contribUcounts commits :", this.contribUcounts)
     console.info("✅ this.sumSum:", this.sumSum, this.graph)
     console.info("✅ this.contributors :", this.contributors)
