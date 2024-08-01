@@ -17,8 +17,8 @@ jobs:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       ACCESS_TOKEN: ${{secrets.ACCESS_TOKEN}}
       GITHUB_owner: ${{github.repository_owner}}
-      FORCE_COLOR: 1
-      COLOR: 1
+      FORCE_COLOR: true
+
     defaults:
       run:
         shell: bash
