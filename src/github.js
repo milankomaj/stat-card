@@ -329,8 +329,8 @@ class GithubUser {
         const contributors = contributorsResults.flatMap(result => result.data);
         octokit.log.debug("✅ contributors hasOwn:login :", Object.entries(contributors).map(([index, total, weeks]) => ({
           index,
-          total: index.total,
-          weeks: weeks.total,
+          total,
+          weeks,
           author
         }))
         )
