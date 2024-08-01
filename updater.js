@@ -7,7 +7,7 @@ import SVGO from 'svgo'; // 🔶
 // import { networkInterfaces } from 'os';
 // console.log("✅ networkInterfaces:", networkInterfaces)
 // console.log("✅ process.env:", process.env)
-// console.log("✅ process.env:", process.env)
+console.log("✅ process.env:", process.env)
 console.log("✅ process.argv:", process.argv)
 
 const args = process.argv.slice(2); //🔶  Remove node and script paths
