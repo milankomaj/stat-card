@@ -13,6 +13,7 @@ jobs:
       max-parallel: 3
     runs-on: ubuntu-latest
     permissions: read-all
+    timeout-minutes: 10
     env:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       ACCESS_TOKEN: ${{secrets.ACCESS_TOKEN}}
