@@ -327,11 +327,10 @@ class GithubUser {
         const contributorsResults = await Promise.all(contributorsPromises);
         octokit.log.debug("✅ fetchAllcontributors.status:", (contributorsResults.flatMap(element => element.status)))
         const contributors = contributorsResults.flatMap(result => result.data);
-        octokit.log.debug("✅ contributors hasOwn:login :", Object.entries(contributors).map(([index, total, weeks]) => ({
+        octokit.log.debug("✅ contributors hasOwn:login :", Object.entries(contributors).map(([index, total]) => ({
           index,
           total: total.total,
-          weeks: Object.values(total.weeks),
-          author: Object.values(total.author)
+          author: Object.values(total.author)[0]
         }))
         )
         const authenticate = (element => element.author ? element.author.login === username : '')
