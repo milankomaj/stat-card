@@ -54,7 +54,7 @@ export function stopSpinnerAndTimer() {
   clearInterval(spinnerInterval);
   clearInterval(timerId);
   const totalTime = Date.now() - startTime;
-  process.stdout.write(`\r✅ GitHub Statistics (${color.blink(formatTime(totalTime))})\n\x1b[?25h`);
+  process.stdout.write(`\r✅ GitHub Statistics (${color.blink(formatTime(totalTime))})\n\x1b[?25h\n`);
 }
 // -----------------------------------------------------------------------
 export function arrayBufferToAsciiString(arrayBuffer) {
