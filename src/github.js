@@ -329,8 +329,8 @@ class GithubUser {
         const contributors = contributorsResults.flatMap(result => result.data);
         octokit.log.debug("✅ contributors hasOwn:login :", Object.entries(contributors).map(([index, total, weeks]) => ({
           index,
-          total,
-          weeks
+          total: total.total,
+          weeks: total.weeks
         }))
         )
         const authenticate = (element => element.author ? element.author.login === username : '')
