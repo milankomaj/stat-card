@@ -5,7 +5,7 @@ import { retry } from "@octokit/plugin-retry";
 // import { graphql } from "@octokit/graphql";
 import { paginateGraphQL } from "@octokit/plugin-paginate-graphql";
 import { lang } from './github-lang-colors.js';
-console.log("✅ Date:", util.color.magenta(new Date(Math.floor(Date.now())).toLocaleDateString())) // toLocaleString
+console.log("✅ Date:", util.color.randomColorANSI(new Date(Math.floor(Date.now())).toLocaleDateString())) // toLocaleString
 const token = process.env.ACCESS_TOKEN //🔶 node and action
 
 
@@ -113,6 +113,7 @@ class GithubUser {
 
     console.info("✅ this.userName:", util.color.bold(this.userName))
     console.info("✅ this.repo:", this.repo)
+    console.info("✅ this.stars:", this.stars)
     console.info("✅ this.size:", util.color.yellow(Number(this.size / 1000).toFixed(2) + " MB "))
     console.info("✅ this.commits:", this.commits)
     console.info("✅ this.views:", this.views)
