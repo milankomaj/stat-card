@@ -55,10 +55,10 @@ jobs:
        cat ${{ github.workspace }}/generated/overview.svg
        cat ${{ github.workspace }}/generated/languages.svg
 
-    - name: E-buil
-      id: esbuil
+    - name: E-build
+      id: esbuild
       run: |
-       npm run E-buil
+       npm run E-build
        rm -r ${{ github.workspace }}/node_modules
        node ./dist/esbuild_updater.js ${{github.repository_owner}} -info
        tree -h ${{ github.workspace }}/dist
