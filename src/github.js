@@ -302,7 +302,7 @@ class GithubUser {
       try {
         const contributorsPromises = reposName.map(async (repo) => {
           //let retryCount = 0; // Track retry attempts for "202" responses
-          //let response;
+          let response;
 
           do {
             response = await octokit.request('GET /repos/{owner}/{repo}/stats/contributors', {
