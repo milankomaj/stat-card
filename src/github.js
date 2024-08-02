@@ -20,7 +20,7 @@ const ThrottleOctokit = Octokit.plugin(throttling, retry, paginateGraphQL);
 const octokit = new ThrottleOctokit({
   userAgent: 'stat-card',
   auth: token,
-  retry: {  enabled: true, retries: 10, retryAfter: 10, statusCodes: [202, 404, 500, 502, 503, 504],  },
+  retry: { request: { enabled: true, retries: 10, retryAfter: 10, statusCodes: [202, 404, 500, 502, 503, 504], } },
   log: {
     debug: logs === 'debug' ? console.debug : () => { }, // () => { }🔶
     info: logs === 'info' ? console.info : () => { },
