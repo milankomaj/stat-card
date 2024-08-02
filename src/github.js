@@ -76,7 +76,6 @@ class GithubUser {
     this.contributors = await contributors(this.userName); // 🟠
     const reposName = this.repoContent.map((title) => title.name) // fetchAllLanguages,fetchAllcontributors,fetchAllviews
     this.name = this.userContent.data.name;
-    this.unMaskName = (this.name)
     this.repo = (this.userContent.data.public_repos);
     this.gists = (this.userContent.data.public_gists);
     this.followers = (this.userContent.data.followers);
