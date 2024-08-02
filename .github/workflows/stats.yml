@@ -26,9 +26,6 @@ jobs:
 
     steps:
 
-
-
-
     - name: checkout ${{ github.ref }}
       id: checkout
       uses: actions/checkout@v4
@@ -43,6 +40,24 @@ jobs:
       with:
         node-version: 'latest'
 
+    - name: npm
+      id: npm
+      run: |
+       npm install --save
+
+    - name: update
+      id: update
+      run: |
+       npm run update
+
+    - name: check
+      id: check
+      run: |
+       ls -slh ${{ github.workspace }}/generated
+       cat ${{ github.workspace }}/generated/overview.svg
+       cat ${{ github.workspace }}/generated/languages.svg
+
+
     - name: E-build & shell-x@v0.3
       id: shell
       if: ${{ runner.os == 'Linux' }}
@@ -52,12 +67,11 @@ jobs:
         locale: sk_SK.utf8
         timezone: Europe/Bratislava
         comand:
-         npm install --save &&
-         npm run update
-
-    - name: check
-      id: check
-      run: |
-       ls -slh ${{ github.workspace }}/generated
-       cat ${{ github.workspace }}/generated/overview.svg
-       cat ${{ github.workspace }}/generated/languages.svg
+          sed -i '4d' ${{ github.workspace }}/updater.js &&
+          npm run E-build &&
+          rm -r ${{ github.workspace }}/node_modules &&
+          node ./dist/esbuild_updater.js ${{github.repository_owner}} -info &&
+          ls -slh ${{ github.workspace }}/dist &&
+          ls -slh ${{ github.workspace }}/generated &&
+          cat ${{ github.workspace }}/generated/overview.svg &&
+          cat ${{ github.workspace }}/generated/languages.sv
