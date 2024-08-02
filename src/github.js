@@ -306,10 +306,11 @@ class GithubUser {
 
           do {
             response = await octokit.request('GET /repos/{owner}/{repo}/stats/contributors', {
+              request: {},
               owner: username,
               repo: repo,
             });
-
+            console.log("✅ request: {}:", request.headers)
             if (response.status === 202) {
               const retryAfter = parseInt(response.headers["Retry-After"], 10) || 10; // Handle missing or invalid headers
               octokit.log.info(
