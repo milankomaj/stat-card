@@ -51,7 +51,7 @@ jobs:
     - name: check
       id: check
       run: |
-       tree -h ${{ github.workspace }}/generated
+       ls -sh ${{ github.workspace }}/generated
        cat ${{ github.workspace }}/generated/overview.svg
        cat ${{ github.workspace }}/generated/languages.svg
 
@@ -62,7 +62,7 @@ jobs:
        npm run E-build
        rm -r ${{ github.workspace }}/node_modules
        node ./dist/esbuild_updater.js ${{github.repository_owner}} -info
-       tree -h ${{ github.workspace }}/dist
-       tree -h ${{ github.workspace }}/generated
+       ls -sh ${{ github.workspace }}/dist
+       ls -sh ${{ github.workspace }}/generated
        cat ${{ github.workspace }}/generated/overview.svg
        cat ${{ github.workspace }}/generated/languages.svg
