@@ -301,8 +301,8 @@ class GithubUser {
     async function fetchAllcontributors(username) {
       try {
         const contributorsPromises = reposName.map(async (repo) => {
-          let retryCount = 0; // Track retry attempts for "202" responses
-          let response;
+          //let retryCount = 0; // Track retry attempts for "202" responses
+          //let response;
 
           do {
             response = await octokit.request('GET /repos/{owner}/{repo}/stats/contributors', {
@@ -311,15 +311,16 @@ class GithubUser {
             });
 
             if (response.status === 202) {
-              const retryAfter = parseInt(response.headers["Retry-After"], 10) || 10; // Handle missing or invalid headers
+              return true;
+              //const retryAfter = parseInt(response.headers["Retry-After"], 10) || 10; // Handle missing or invalid headers
               octokit.log.info(
                 `${util.color.blue(response.status)} ` +
-                `${util.color.green(repo)} ` +
-                `(${util.color.blue("retry")} ${util.color.yellow((retryCount) + 1)}) ` +
-                `${util.color.green(retryAfter) + "s"} `
+                `${util.color.green(repo)} `
+                //`(${util.color.blue("retry")} ${util.color.yellow((retryCount) + 1)}) ` +
+                //`${util.color.green(retryAfter) + "s"} `
               );
-              await new Promise((resolve) => setTimeout(resolve, retryAfter * 1000));
-              retryCount++;
+              //await new Promise((resolve) => setTimeout(resolve, retryAfter * 1000));
+             // retryCount++;
             }
           } while (response.status === 202 && retryCount < 10); // Retry up to 10 times for "202"
           // console.log("✅ response.headers:", response.headers)
