@@ -20,7 +20,7 @@ const ThrottleOctokit = Octokit.plugin(throttling, retry, paginateGraphQL);
 const octokit = new ThrottleOctokit({
   userAgent: 'stat-card',
   auth: token,
-  retry: { enabled: true, retries: 10, retryAfter: 10, },
+  retry: { enabled: true, retries: 10, retryAfter: 10 },
   log: {
     debug: logs === 'debug' ? console.debug : () => { }, // () => { }🔶
     info: logs === 'info' ? console.info : () => { },
@@ -308,7 +308,7 @@ class GithubUser {
             response = await octokit.request('GET /repos/{owner}/{repo}/stats/contributors', {
               owner: username,
               repo: repo,
-              request: { retries: 10, retryAfter: 10, },
+              request: { retries: 10, retryAfter: 10 }
             });
 
             if (response.status === 202) {
