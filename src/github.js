@@ -309,7 +309,9 @@ class GithubUser {
               request: {},
               owner: username,
               repo: repo,
-            });
+            },
+            console.log("✅ request: {}:", request)
+          );
             if (response.status === 202) {
               const retryAfter = parseInt(response.headers["Retry-After"], 10) || 10; // Handle missing or invalid headers
               octokit.log.info(
@@ -322,7 +324,7 @@ class GithubUser {
               retryCount++;
             }
           } while (response.status === 202 && retryCount < 10); // Retry up to 10 times for "202"
-          console.log("✅ response.headers:", response)
+          // console.log("✅ response.headers:", response.headers)
           return response; // Return the final response (200 or failed)
         });
 
