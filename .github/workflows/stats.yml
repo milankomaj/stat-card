@@ -32,6 +32,8 @@ jobs:
       with:
         ref: ${{ github.ref }}
 
+    - run: echo "::add-mask::$GITHUB_owner"
+
     - name: node
       id: node
       uses: actions/setup-node@v4
