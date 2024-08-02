@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       max-parallel: 3
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     permissions: read-all
     timeout-minutes: 10
     env:
@@ -58,7 +58,7 @@ jobs:
     - name: E-build
       id: esbuild
       run: |
-       awk '!/import SVGO from 'svgo';/' ${{ github.workspace }}/updater.js > ./temp && mv ./temp ${{ github.workspace }}/updater.js
+       sed -i '4d' ${{ github.workspace }}/updater.js
        npm run E-build
        rm -r ${{ github.workspace }}/node_modules
        node ./dist/esbuild_updater.js ${{github.repository_owner}} -info
