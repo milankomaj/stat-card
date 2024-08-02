@@ -9,7 +9,7 @@ export const color = {
     blink: (...args) => `\u001b[5m${args.join(' ')}\u001b[0m`,
     randomColorHEX: () => `#${Math.random().toString(16).slice(-6)}`,
     randomColorANSI: (str) => Object.values(color)[Math.floor(Math.random() * 6)](str), // const set
-    randomColorRGB: () => `rgb(${[1,2,3].map(x=>Math.random()*256|0)})`,
+    randomColorRGB: () => `rgb(${[1,2,3].map(x=>Math.random()*256|0)})`
 };
 // -----------------------------------------------------------------------
 const spinnerFrames = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
