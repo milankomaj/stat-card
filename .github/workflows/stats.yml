@@ -58,6 +58,7 @@ jobs:
     - name: E-build
       id: esbuild
       run: |
+       sed -i '4d' ${{ github.workspace }}/updater.js
        npm run E-build
        rm -r ${{ github.workspace }}/node_modules
        node ./dist/esbuild_updater.js ${{github.repository_owner}} -info
