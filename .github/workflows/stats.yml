@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       max-parallel: 3
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     permissions: read-all
     timeout-minutes: 10
     env:
