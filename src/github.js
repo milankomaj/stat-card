@@ -311,7 +311,7 @@ class GithubUser {
             });
 
             if (response.status === 202) {
-              const retryAfter = parseInt(response.headers["Retry-After"], 10) || 10; // Handle missing or invalid headers
+              const retryAfter = parseInt(response.headers["Retry-After"], 60) || 10; // Handle missing or invalid headers
               octokit.log.info(
                 `${util.color.blue(response.status)} ` +
                 `${util.color.green(repo)} ` +
