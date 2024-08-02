@@ -308,7 +308,7 @@ class GithubUser {
             response = await octokit.request('GET /repos/{owner}/{repo}/stats/contributors', {
               owner: username,
               repo: repo,
-              request: { enabled: true, retries: 10, retryAfter: 10, },
+              // request: { enabled: true, retries: 10, retryAfter: 10, },
             });
 
             if (response.status === 202) {
