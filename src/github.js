@@ -28,8 +28,8 @@ const octokit = new ThrottleOctokit({
     error: console.error,
   },
   throttle: {
-    onSecondaryRateLimit: (retryAfter, options, octokit) => { return true },
-    onRateLimit: (retryAfter, options, octokit, retryCount) => { if (options.request.retryCount < 10) { return true } },
+    onSecondaryRateLimit: (retryAfter, options, octokit) => { return true; },
+    onRateLimit: (retryAfter, options, octokit, retryCount) => { if (options.request.retryCount < 10) { return true; } },
   },
 })
 
@@ -316,7 +316,7 @@ class GithubUser {
                 `${util.color.blue(response.status)} ` +
                 `${util.color.green(repo)} ` +
                 `(${util.color.blue("retry")} ${util.color.yellow((retryCount) + 1)}) ` +
-                `${util.color.green(retryAfter) + "s"} `
+                `${util.color.green(retryAfter) + " s"} `
               );
               await new Promise((resolve) => setTimeout(resolve, retryAfter * 1000));
               retryCount++;
