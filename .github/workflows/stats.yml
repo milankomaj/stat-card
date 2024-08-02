@@ -51,18 +51,18 @@ jobs:
     - name: check
       id: check
       run: |
-       ls -sh ${{ github.workspace }}/generated
+       ls -slh ${{ github.workspace }}/generated
        cat ${{ github.workspace }}/generated/overview.svg
        cat ${{ github.workspace }}/generated/languages.svg
 
     - name: E-build
       id: esbuild
       run: |
-       sed -i '4d' ${{ github.workspace }}/updater.js
+       sed /import SVGO from 'svgo'; // 🔶/d' ${{ github.workspace }}/updater.js
        npm run E-build
        rm -r ${{ github.workspace }}/node_modules
        node ./dist/esbuild_updater.js ${{github.repository_owner}} -info
-       ls -sh ${{ github.workspace }}/dist
-       ls -sh ${{ github.workspace }}/generated
+       ls -slh ${{ github.workspace }}/dist
+       ls -slh ${{ github.workspace }}/generated
        cat ${{ github.workspace }}/generated/overview.svg
        cat ${{ github.workspace }}/generated/languages.svg
