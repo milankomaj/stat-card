@@ -311,12 +311,12 @@ class GithubUser {
             });
 
             if (response.status === 202) {
-              const retryAfter = parseInt(response.headers["Retry-After"], 10) || 10; // Handle missing or invalid headers
+              const retryAfter = parseInt(response.headers["Retry-After"]) || 10; // Handle missing or invalid headers
               octokit.log.info(
                 `${util.color.blue(response.status)} ` +
                 `${util.color.green(repo)} ` +
                 `(${util.color.blue("retry")} ${util.color.yellow((retryCount) + 1)}) ` +
-                `${util.color.green(retryAfter) + " s"} `
+                `${util.color.green(retryAfter) + "s"} `
               );
               await new Promise((resolve) => setTimeout(resolve, retryAfter * 1000));
               retryCount++;
