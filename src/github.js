@@ -315,7 +315,8 @@ class GithubUser {
               octokit.log.info(
                 `${util.color.blue(response.status)} ` +
                 `${util.color.green(repo)} ` +
-                `(${util.color.blue("retry")} ${util.color.yellow((retryCount) + 1)}) `
+                `(${util.color.blue("retry")} ${util.color.yellow((retryCount) + 1)}) ` +
+                `${util.color.green(retryAfter) + " s"} `
               );
               await new Promise((resolve) => setTimeout(resolve, retryAfter * 1000));
               retryCount++;
