@@ -336,7 +336,7 @@ class GithubUser {
           author: Object.values(total.author)[0] || ""
         }))
         )*/
-        const authenticate = (element => element.author ? element.author.login === username : '')
+        const authenticate = (element => element ? element : '')
         const contribU = Object.values(contributors).filter(authenticate)
         // octokit.log.debug("✅ contribU counts:", (contribU.flatMap((counts) => counts.total)).reduce((a, b) => a + b, 0))
         const contribUcounts = (contribU.flatMap((counts) => counts.total)).reduce((a, b) => a + b, 0)
