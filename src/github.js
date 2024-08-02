@@ -20,7 +20,7 @@ const ThrottleOctokit = Octokit.plugin(throttling, retry, paginateGraphQL);
 const octokit = new ThrottleOctokit({
   userAgent: 'stat-card',
   auth: token,
-  retry: { request: { enabled: true, retries: 10, retryAfter: 10, statusCodes: [202, 404, 500, 502, 503, 504], } },
+  retry: { enabled: true, retries: 10, retryAfter: 10, },
   log: {
     debug: logs === 'debug' ? console.debug : () => { }, // () => { }🔶
     info: logs === 'info' ? console.info : () => { },
@@ -28,8 +28,8 @@ const octokit = new ThrottleOctokit({
     error: console.error,
   },
   throttle: {
-    onSecondaryRateLimit: (retryAfter, options, octokit) => { return true; },
-    onRateLimit: (retryAfter, options, octokit, retryCount) => { if (options.request.retryCount < 10) { return true; } },
+    onSecondaryRateLimit: (retryAfter, options, octokit) => { return true },
+    onRateLimit: (retryAfter, options, octokit, retryCount) => { if (options.request.retryCount < 10) { return true } },
   },
 })
 
@@ -301,7 +301,7 @@ class GithubUser {
     async function fetchAllcontributors(username) {
       try {
         const contributorsPromises = reposName.map(async (repo) => {
-          //let retryCount = 0; // Track retry attempts for "202" responses
+          let retryCount = 0; // Track retry attempts for "202" responses
           let response;
 
           do {
@@ -311,16 +311,15 @@ class GithubUser {
             });
 
             if (response.status === 202) {
-              return true;
-              //const retryAfter = parseInt(response.headers["Retry-After"], 10) || 10; // Handle missing or invalid headers
+              const retryAfter = parseInt(response.headers["Retry-After"], 10) || 10; // Handle missing or invalid headers
               octokit.log.info(
                 `${util.color.blue(response.status)} ` +
-                `${util.color.green(repo)} `
-                //`(${util.color.blue("retry")} ${util.color.yellow((retryCount) + 1)}) ` +
-                //`${util.color.green(retryAfter) + "s"} `
+                `${util.color.green(repo)} ` +
+                `(${util.color.blue("retry")} ${util.color.yellow((retryCount) + 1)}) ` +
+                `${util.color.green(retryAfter) + "s"} `
               );
-              //await new Promise((resolve) => setTimeout(resolve, retryAfter * 1000));
-             // retryCount++;
+              await new Promise((resolve) => setTimeout(resolve, retryAfter * 1000));
+              retryCount++;
             }
           } while (response.status === 202 && retryCount < 10); // Retry up to 10 times for "202"
           // console.log("✅ response.headers:", response.headers)
@@ -330,13 +329,13 @@ class GithubUser {
         const contributorsResults = await Promise.all(contributorsPromises);
         octokit.log.debug("✅ fetchAllcontributors.status:", (contributorsResults.flatMap(element => element.status)))
         const contributors = contributorsResults.flatMap(result => result.data);
-        /*octokit.log.debug("✅ contributors hasOwn:login :", Object.entries(contributors).map(([index, total]) => ({
+        octokit.log.debug("✅ contributors hasOwn:login :", Object.entries(contributors).map(([index, total]) => ({
           index,
           total: total.total || "",
           author: Object.values(total.author)[0] || ""
         }))
-        )*/
-        const authenticate = (element => element ? element : '')
+        )
+        const authenticate = (element => element.author ? element.author.login === username : '')
         const contribU = Object.values(contributors).filter(authenticate)
         // octokit.log.debug("✅ contribU counts:", (contribU.flatMap((counts) => counts.total)).reduce((a, b) => a + b, 0))
         const contribUcounts = (contribU.flatMap((counts) => counts.total)).reduce((a, b) => a + b, 0)
