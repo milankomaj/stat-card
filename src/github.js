@@ -20,7 +20,7 @@ const ThrottleOctokit = Octokit.plugin(throttling, retry, paginateGraphQL);
 const octokit = new ThrottleOctokit({
   userAgent: 'stat-card',
   auth: token,
-  retry: { enabled: true, retries: 10, retryAfter: 10, },
+  retry: { request: { enabled: true, retries: 10, retryAfter: 10, }, },
   log: {
     debug: logs === 'debug' ? console.debug : () => { }, // () => { }🔶
     info: logs === 'info' ? console.info : () => { },
@@ -323,7 +323,7 @@ class GithubUser {
               retryCount++;
             }
           } while (response.status === 202 && retryCount < 10); // Retry up to 10 times for "202"
-          octokit.log.warn;("✅ response.headers:", response.headers)
+          octokit.log.warn; ("✅ response.headers:", response.headers)
           return response; // Return the final response (200 or failed)
         });
 
