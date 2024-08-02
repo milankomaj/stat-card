@@ -57,20 +57,25 @@ jobs:
        cat ${{ github.workspace }}/generated/overview.svg
        cat ${{ github.workspace }}/generated/languages.svg
 
-    - name: E-build & shell-x@v0.3
-      if: ${{ runner.os == 'Linux' }}
-      id: esbuild
+
+    - name: shell-x@v0.3
+      id: shell
+      continue-on-error: true
       uses: milankomaj/shell-x@v0.3
       with:
         shell: bash
         locale: sk_SK.utf8
         timezone: Europe/Bratislava
-        comand:
-          sed -i '4d' ${{ github.workspace }}/updater.js \
-          npm run E-build \
-          rm -r ${{ github.workspace }}/node_modules \
-          node ./dist/esbuild_updater.js ${{github.repository_owner}} -info \
-          ls -slh ${{ github.workspace }}/dist \
-          ls -slh ${{ github.workspace }}/generated \
-          cat ${{ github.workspace }}/generated/overview.svg \
-          cat ${{ github.workspace }}/generated/languages.svg
+
+    - name: E-build
+      if: ${{ runner.os == 'Linux' }}
+      id: esbuild
+      run: |
+       sed -i '4d' ${{ github.workspace }}/updater.js
+       npm run E-build
+       rm -r ${{ github.workspace }}/node_modules
+       node ./dist/esbuild_updater.js ${{github.repository_owner}} -info
+       ls -slh ${{ github.workspace }}/dist
+       ls -slh ${{ github.workspace }}/generated
+       cat ${{ github.workspace }}/generated/overview.svg
+       cat ${{ github.workspace }}/generated/languages.svg
