@@ -61,7 +61,7 @@ jobs:
     - name: E-build & shell-x@v0.3
       id: shell
       if: ${{ runner.os == 'Linux' }}
-      uses: milankomaj/shell-x@test-v3
+      uses: milankomaj/shell-x@v0.3
       with:
         shell: bash
         locale: sk_SK.utf8
