@@ -19,10 +19,9 @@ jobs:
       ACCESS_TOKEN: ${{secrets.ACCESS_TOKEN}}
       GITHUB_owner: ${{github.repository_owner}}
       FORCE_COLOR: true
-
     defaults:
       run:
-        shell: sh
+        shell: bash
         working-directory: ${{ github.workspace }}
 
     steps:
@@ -44,7 +43,6 @@ jobs:
       run: |
        npm install --save
 
-
     - name: update
       id: update
       run: |
@@ -53,6 +51,17 @@ jobs:
     - name: check
       id: check
       run: |
+       tree -h ${{ github.workspace }}/generated
+       cat ${{ github.workspace }}/generated/overview.svg
+       cat ${{ github.workspace }}/generated/languages.svg
+
+    - name: E-buil
+      id: esbuil
+      run: |
+       npm run E-buil
+       rm -r ${{ github.workspace }}/node_modules
+       node ./dist/esbuild_updater.js ${{github.repository_owner}} -info
+       tree -h ${{ github.workspace }}/dist
        tree -h ${{ github.workspace }}/generated
        cat ${{ github.workspace }}/generated/overview.svg
        cat ${{ github.workspace }}/generated/languages.svg
