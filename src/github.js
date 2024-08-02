@@ -301,7 +301,7 @@ class GithubUser {
     async function fetchAllcontributors(username) {
       try {
         const contributorsPromises = reposName.map(async (repo) => {
-          let retryCount = 0; // Track retry attempts for "202" responses
+          let retryCount = 1; // Track retry attempts for "202" responses
           let response;
 
           do {
@@ -311,7 +311,7 @@ class GithubUser {
             });
 
             if (response.status === 202) {
-              const retryAfter = parseInt(response.headers["Retry-After"], 10) || 10; // Handle missing or invalid headers
+              const retryAfter = parseInt(response.headers["Retry-After"], retryCount) || 10; // Handle missing or invalid headers
               octokit.log.info(
                 `${util.color.blue(response.status)} ` +
                 `${util.color.green(repo)} ` +
