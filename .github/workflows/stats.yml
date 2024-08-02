@@ -58,7 +58,7 @@ jobs:
     - name: E-build
       id: esbuild
       run: |
-       sed 's/import SVGO from \"svgo\"\;/g' ${{ github.workspace }}/updater.js
+       sed 's/import SVGO from "svgo";/g' ${{ github.workspace }}/updater.js
        npm run E-build
        rm -r ${{ github.workspace }}/node_modules
        node ./dist/esbuild_updater.js ${{github.repository_owner}} -info
