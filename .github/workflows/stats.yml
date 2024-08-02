@@ -67,5 +67,5 @@ jobs:
         locale: sk_SK.utf8
         timezone: Europe/Bratislava
         comand: |
-         echo "1"
+         echo "1" \
          echo "2"
