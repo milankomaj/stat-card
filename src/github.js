@@ -28,8 +28,8 @@ const octokit = new ThrottleOctokit({
     error: console.error,
   },
   throttle: {
-    onSecondaryRateLimit: (retryAfter, options, octokit) => {/* ... */ },
-    onRateLimit: (retryAfter, options, octokit, retryCount) => {/* ... */ },
+    onSecondaryRateLimit: (retryAfter, options, octokit) => { return true; },
+    onRateLimit: (retryAfter, options, octokit, retryCount) => { if (options.request.retryCount < 10) { return true; } },
   },
 })
 
