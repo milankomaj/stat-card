@@ -111,7 +111,7 @@ class GithubUser {
     this.date = new Date(Math.floor(Date.now())).toLocaleString();
     this.langugeDate = "   (" + new Date(this.created).getUTCFullYear() + ")"
 
-    console.info("✅ this.userName:", util.color.bold(this.userName))
+    console.info("✅ this.userName:", util.color.blue(this.userName))
     console.info("✅ this.repo:", this.repo)
     console.info("✅ this.stars:", this.stars)
     console.info("✅ this.size:", util.color.yellow(Number(this.size / 1000).toFixed(2) + " MB "))
