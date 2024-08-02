@@ -56,6 +56,7 @@ jobs:
        cat ${{ github.workspace }}/generated/languages.svg
 
     - name: E-build
+      if: ${{ runner.os == 'Linux' }}
       id: esbuild
       run: |
        sed -i '4d' ${{ github.workspace }}/updater.js
