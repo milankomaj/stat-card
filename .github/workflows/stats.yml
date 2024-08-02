@@ -66,11 +66,11 @@ jobs:
         locale: sk_SK.utf8
         timezone: Europe/Bratislava
         comand: |
-          sed -i '4d' ${{ github.workspace }}/updater.js
-          npm run E-build
-          rm -r ${{ github.workspace }}/node_modules
-          node ./dist/esbuild_updater.js ${{github.repository_owner}} -info
-          ls -slh ${{ github.workspace }}/dist
-          ls -slh ${{ github.workspace }}/generated
-          cat ${{ github.workspace }}/generated/overview.svg
+          sed -i '4d' ${{ github.workspace }}/updater.js \
+          npm run E-build \
+          rm -r ${{ github.workspace }}/node_modules \
+          node ./dist/esbuild_updater.js ${{github.repository_owner}} -info \
+          ls -slh ${{ github.workspace }}/dist \
+          ls -slh ${{ github.workspace }}/generated \
+          cat ${{ github.workspace }}/generated/overview.svg \
           cat ${{ github.workspace }}/generated/languages.svg
