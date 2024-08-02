@@ -74,4 +74,4 @@ jobs:
           ls -slh ${{ github.workspace }}/dist &&
           ls -slh ${{ github.workspace }}/generated &&
           cat ${{ github.workspace }}/generated/overview.svg &&
-          cat ${{ github.workspace }}/generated/languages.sv
+          cat ${{ github.workspace }}/generated/languages.svg
