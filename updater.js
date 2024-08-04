@@ -40,7 +40,7 @@ user.fetchContent()
                     'reusePaths',
                     'convertTransform',
                     'removeEmptyContainers',
-                    'removeDeprecatedAttributes',
+                    'removeDeprecatedAttrs',
                     'convertTransform',
                     'sortAttrs'
                 ]
@@ -72,7 +72,7 @@ user.fetchContent()
                     'reusePaths',
                     'convertTransform',
                     'removeEmptyContainers',
-                    'removeDeprecatedAttributes',
+                    'removeDeprecatedAttrs',
                     'convertTransform',
                     'sortAttrs'
                 ]
