@@ -114,10 +114,10 @@ class GithubUser {
     this.date = new Date(Math.floor(Date.now())).toLocaleString();
     this.langugeDate = "   (" + new Date(this.created).getUTCFullYear() + ")"
 
-    console.log(Object.entries(gists_all).length)
-
     console.info("✅ this.userName:", util.color.blue(this.userName))
     console.info("✅ this.repo:", this.repo)
+    console.info("✅ this.gists:", this.gists)
+    console.info("✅ gists_all:", (Object.entries(gists_all).length))
     console.info("✅ this.stars:", this.stars)
     console.info("✅ this.size:", util.color.yellow(Number(this.size / 1000).toFixed(2) + " MB "))
     console.info("✅ this.commits:", this.commits)
