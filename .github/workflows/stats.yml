@@ -61,7 +61,8 @@ jobs:
       run: |
        gh gist edit 94c9ea71d75d950b827850c2bd0677e0 -f overview.svg ${{ github.workspace }}/generated/overview.svg
        gh gist edit 94c9ea71d75d950b827850c2bd0677e0 -f languages.svg ${{ github.workspace }}/generated/languages.svg
-
+      env:
+        ACCESS_TOKEN: ${{secrets.ACCESS_TOKEN}}
 
     - name: E-build & shell-x@v0.3
       id: shell
