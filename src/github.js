@@ -80,7 +80,7 @@ class GithubUser {
     this.name = this.userContent.data.name;
     this.repo = (this.userContent.data.public_repos);
     this.gists = (this.userContent.data.public_gists);
-    this.gists_all = (this.gistsAll.data.files);
+    this.gists_all = (this.gistsAll.public);
     this.followers = (this.userContent.data.followers);
     this.created = (this.userContent.data.created_at);
     this.starsCount = 0;
