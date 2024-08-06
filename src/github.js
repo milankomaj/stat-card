@@ -249,7 +249,7 @@ class GithubUser {
         octokit.log.debug("✅ size:", languageResults.map(result => result.size.toString()));
         const sortedALL = (languageResults).sort((a, b) => b.size - a.size);
         octokit.log.debug("✅ sortedALLanguages-size:", sortedALL);
-        octokit.log.debug("✅ sortedLanguages:", languageResults.map(result => result.language).toSorted());
+        octokit.log.debug("✅ sortedLanguages:", languageResults.map(result => result.language).sort());
         octokit.log.debug("✅ sortedPercentage:", languageResults.map(result => result.percentage.toFixed(3)).sort((a, b) => b - a));
         octokit.log.debug("✅ sortedSize:", languageResults.map(result => result.size.toString()).sort((a, b) => b - a));
         const delayBetween = 150;
