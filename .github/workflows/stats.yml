@@ -62,6 +62,7 @@ jobs:
       working-directory: ${{ github.workspace }}/generated
       run: |
        gh auth status
+       gh auth login --hostname github.com
        gh auth switch --hostname github.com --user ${{github.repository_owner}}
        gh auth status
        cat overview.svg | gh gist create overview.svg
