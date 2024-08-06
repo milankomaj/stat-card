@@ -33,6 +33,15 @@ jobs:
 
     # - run: echo "::add-mask::$GITHUB_owner"
 
+    - name: shell-x@v0.3
+      id: locale
+      if: ${{ runner.os == 'Linux' }}
+      uses: milankomaj/shell-x@v0.3
+      with:
+        shell: bash
+        locale: sk_SK.utf8
+        timezone: Europe/Bratislava
+
     - name: update
       id: update
       run: |
