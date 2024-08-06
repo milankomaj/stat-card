@@ -33,28 +33,18 @@ jobs:
 
     # - run: echo "::add-mask::$GITHUB_owner"
 
-    - name: node
-      id: node
-      uses: actions/setup-node@v4
-      with:
-        node-version: 'latest'
-
-    - name: npm
-      id: npm
-      run: |
-       npm install --save
-
     - name: update
       id: update
       run: |
+       npm install --save
        npm run update
 
     - name: check
       id: check
       run: |
        ls -sh ${{ github.workspace }}/generated
-       cat ${{ github.workspace }}/generated/overview.svg
-       cat ${{ github.workspace }}/generated/languages.svg
+       # cat ${{ github.workspace }}/generated/overview.svg
+       # cat ${{ github.workspace }}/generated/languages.svg
 
     - name: upload to gist
       id: upload
