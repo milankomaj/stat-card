@@ -80,7 +80,7 @@ class GithubUser {
     this.name = this.userContent.data.name;
     this.repo = (this.userContent.data.public_repos);
     this.gists = (this.userContent.data.public_gists);
-    this.gists_all = (this.gistsAll.data.public);
+    this.gists_all = (this.gistsAll.data);
     this.followers = (this.userContent.data.followers);
     this.created = (this.userContent.data.created_at);
     this.starsCount = 0;
@@ -114,7 +114,7 @@ class GithubUser {
     this.date = new Date(Math.floor(Date.now())).toLocaleString();
     this.langugeDate = "   (" + new Date(this.created).getUTCFullYear() + ")"
 
-    console.log((this.gists_all).length())
+    console.log((this.gists_all))
 
     console.info("✅ this.userName:", util.color.blue(this.userName))
     console.info("✅ this.repo:", this.repo)
