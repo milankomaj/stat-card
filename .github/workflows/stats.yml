@@ -60,7 +60,7 @@ jobs:
       id: upload
       working-directory: ${{ github.workspace }}/generated
       run: |
-       echo ${{secrets.ACCESS_TOKEN}} |gh auth login --with-token
+       echo ${{secrets.ACCESS_TOKEN}} | gh auth login --with-token
        gh auth status
        gh auth login --hostname github.com
        gh auth switch --hostname github.com --user ${{github.repository_owner}}
