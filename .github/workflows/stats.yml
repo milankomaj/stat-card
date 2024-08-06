@@ -61,6 +61,8 @@ jobs:
       working-directory: ${{ github.workspace }}/generated
       run: |
        echo ${{secrets.ACCESS_TOKEN}} | gh auth login --with-token
+       count=$(gh api gists --jq length)
+       echo $count
        gh auth status
        cat overview.svg | gh gist create overview.svg
 
