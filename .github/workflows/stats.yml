@@ -58,8 +58,9 @@ jobs:
 
     - name: upload to gist
       id: upload
+      working-directory: ${{ github.workspace }}/generated
       run: |
-       gh gist create ${{ github.workspace }}/generated/overview.svg ${{ github.workspace }}/generated/languages.svg
+       gh gist create overview.svg languages.svg
 
 
     - name: E-build & shell-x@v0.3
