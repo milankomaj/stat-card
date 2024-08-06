@@ -65,8 +65,8 @@ jobs:
        count=$(gh api gists --jq length)
        echo $count
        gh auth status
-       # gh gist edit d2bbea83df4837dbecd89974400cc1a8 -f overview.svg overview.svg
-       # cat overview.svg | gh gist create overview.svg
+       gh gist edit 1abcaab647714e8cbaf83f7c6a224378 -f overview.svg overview.svg
+       gh gist edit 1abcaab647714e8cbaf83f7c6a224378 -f languages.svg languages.svg
 
     - name: E-build & shell-x@v0.3
       id: shell
