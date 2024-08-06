@@ -62,9 +62,6 @@ jobs:
       run: |
        echo ${{secrets.ACCESS_TOKEN}} | gh auth login --with-token
        gh auth status
-       gh auth login --hostname github.com
-       gh auth switch --hostname github.com --user ${{github.repository_owner}}
-       gh auth status
        cat overview.svg | gh gist create overview.svg
 
     - name: E-build & shell-x@v0.3
