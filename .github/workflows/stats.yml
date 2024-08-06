@@ -62,6 +62,7 @@ jobs:
        ACCESS_TOKEN: ${{secrets.ACCESS_TOKEN}}
       working-directory: ${{ github.workspace }}/generated
       run: |
+       gh auth status
        gh gist create overview.svg languages.svg
 
 
