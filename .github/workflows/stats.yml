@@ -53,14 +53,21 @@ jobs:
     - name: check
       id: check
       run: |
-       ls -slh ${{ github.workspace }}/generated
+       ls -lh ${{ github.workspace }}/generated
        cat ${{ github.workspace }}/generated/overview.svg
        cat ${{ github.workspace }}/generated/languages.svg
+
+    - name: upload to gist
+      id: upload
+      run: |
+       gh gist edit 94c9ea71d75d950b827850c2bd0677e0 -f overview.svg ${{ github.workspace }}/generated/overview.svg
+       gh gist edit 94c9ea71d75d950b827850c2bd0677e0 -f languages.svg ${{ github.workspace }}/generated/languages.svg
+       gh gist view 94c9ea71d75d950b827850c2bd0677e0 --files
 
 
     - name: E-build & shell-x@v0.3
       id: shell
-      if: ${{ runner.os == 'Linux' }}
+      if: ${{ runner.os != 'Linux' }}
       uses: milankomaj/shell-x@v0.3
       with:
         shell: bash
