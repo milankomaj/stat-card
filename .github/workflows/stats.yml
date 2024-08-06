@@ -12,7 +12,6 @@ jobs:
       fail-fast: false
       max-parallel: 3
     runs-on: ubuntu-latest
-    permissions: write-all
     timeout-minutes: 10
     env:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
@@ -53,10 +52,9 @@ jobs:
     - name: check
       id: check
       run: |
-       ls -lh ${{ github.workspace }}/generated
+       ls -sh ${{ github.workspace }}/generated
        cat ${{ github.workspace }}/generated/overview.svg
        cat ${{ github.workspace }}/generated/languages.svg
-       unset GITHUB_TOKEN
 
     - name: upload to gist
       id: upload
@@ -67,7 +65,7 @@ jobs:
        count=$(gh api gists --jq length)
        echo $count
        gh auth status
-       gh gist edit d2bbea83df4837dbecd89974400cc1a8 -f overview.svg overview.svg
+       # gh gist edit d2bbea83df4837dbecd89974400cc1a8 -f overview.svg overview.svg
        # cat overview.svg | gh gist create overview.svg
 
     - name: E-build & shell-x@v0.3

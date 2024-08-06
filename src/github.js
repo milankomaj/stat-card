@@ -67,6 +67,8 @@ class GithubUser {
       owner: this.userName,
       state: 'open',
     });
+    this.gistsAll = await octokit.paginate("GET /gists", {});
+
     this.rateLimit = await octokit.request("GET /rate_limit", {});
 
     if (logs === 'default' && !process.env.CI) { util.startSpinnerAndTimer() } // 🔶
@@ -78,6 +80,7 @@ class GithubUser {
     this.name = this.userContent.data.name;
     this.repo = (this.userContent.data.public_repos);
     this.gists = (this.userContent.data.public_gists);
+    this.gists_all = (this.gistsAll.data.files);
     this.followers = (this.userContent.data.followers);
     this.created = (this.userContent.data.created_at);
     this.starsCount = 0;
@@ -110,6 +113,8 @@ class GithubUser {
     this.rates = this.rateLimit.data;
     this.date = new Date(Math.floor(Date.now())).toLocaleString();
     this.langugeDate = "   (" + new Date(this.created).getUTCFullYear() + ")"
+
+    console.log(Object.values(this.gists_all).length())
 
     console.info("✅ this.userName:", util.color.blue(this.userName))
     console.info("✅ this.repo:", this.repo)
