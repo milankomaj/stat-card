@@ -65,8 +65,6 @@ jobs:
        gh auth refresh
        cd ${{ github.workspace }}/generated
        cat overview.svg | gh gist create overview.svg
-      env:
-       GITHUB_TOKEN: ${{secrets.ACCESS_TOKEN}}
 
     - name: E-build & shell-x@v0.3
       id: shell
