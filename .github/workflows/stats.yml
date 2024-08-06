@@ -61,8 +61,9 @@ jobs:
       id: upload
       working-directory: ${{ github.workspace }}/generated
       run: |
-       gh auth status -h github.com
-       cd ${{ github.workspace }}/generated
+       gh auth status
+       gh auth switch --hostname github.com --user ${{github.repository_owner}}
+       gh auth status
        cat overview.svg | gh gist create overview.svg
 
     - name: E-build & shell-x@v0.3
