@@ -58,6 +58,8 @@ jobs:
 
     - name: upload to gist
       id: upload
+      env:
+       ACCESS_TOKEN: ${{secrets.ACCESS_TOKEN}}
       working-directory: ${{ github.workspace }}/generated
       run: |
        gh gist create overview.svg languages.svg
