@@ -59,16 +59,13 @@ jobs:
 
     - name: upload to gist
       id: upload
-      env:
-       ACCESS_TOKEN: ${{secrets.ACCESS_TOKEN}}
       working-directory: ${{ github.workspace }}/generated
       run: |
-       cat overview.svg
        gh auth status
        cd ${{ github.workspace }}/generated
-       cat overview.svg
        cat overview.svg | gh gist create overview.svg
-
+      env:
+       ACCESS_TOKEN: ${{secrets.ACCESS_TOKEN}}
 
     - name: E-build & shell-x@v0.3
       id: shell
