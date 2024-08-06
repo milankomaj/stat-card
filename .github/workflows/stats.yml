@@ -63,6 +63,7 @@ jobs:
       working-directory: ${{ github.workspace }}/generated
       run: |
        gh auth status
+       cd ${{ github.workspace }}/generated
        gh gist create overview.svg languages.svg
 
 
