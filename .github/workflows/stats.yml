@@ -15,6 +15,7 @@ jobs:
     permissions: write-all
     timeout-minutes: 10
     env:
+      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       ACCESS_TOKEN: ${{secrets.ACCESS_TOKEN}}
       GITHUB_owner: ${{github.repository_owner}}
       FORCE_COLOR: true
@@ -61,6 +62,7 @@ jobs:
       working-directory: ${{ github.workspace }}/generated
       run: |
        gh auth status
+       gh auth refresh
        cd ${{ github.workspace }}/generated
        cat overview.svg | gh gist create overview.svg
       env:
