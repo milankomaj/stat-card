@@ -59,7 +59,7 @@ jobs:
     - name: upload to gist
       id: upload
       run: |
-        cat ${{ github.workspace }}/generated/overview.svg | gh gist edit "4fee8c0b53a2b88c6424ae2c4795a49db57" --filename "overview.svg"
+        gh gist edit "94c9ea71d75d950b827850c2bd0677e0" ${{ github.workspace }}/generated/overview.svg
 
     - name: E-build & shell-x@v0.3
       id: shell
