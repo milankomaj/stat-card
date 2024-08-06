@@ -12,10 +12,9 @@ jobs:
       fail-fast: false
       max-parallel: 3
     runs-on: ubuntu-latest
-    permissions: write-all
     timeout-minutes: 10
     env:
-      GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       ACCESS_TOKEN: ${{secrets.ACCESS_TOKEN}}
       GITHUB_owner: ${{github.repository_owner}}
       FORCE_COLOR: true
