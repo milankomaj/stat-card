@@ -60,7 +60,6 @@ jobs:
       id: upload
       working-directory: ${{ github.workspace }}/generated
       run: |
-       gh auth login --with-token < $GITHUB_owner
        gh auth status
        cd ${{ github.workspace }}/generated
        cat overview.svg | gh gist create overview.svg
