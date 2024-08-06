@@ -60,9 +60,10 @@ jobs:
     - name: upload to gist
       id: upload
       run: |
-       gh gist edit 94c9ea71d75d950b827850c2bd0677e0 -f overview.svg ${{ github.workspace }}/generated/overview.svg
-       gh gist edit 94c9ea71d75d950b827850c2bd0677e0 -f languages.svg ${{ github.workspace }}/generated/languages.svg
        gh gist view 94c9ea71d75d950b827850c2bd0677e0 --files
+       gh gist edit https://gist.githubusercontent.com/milankomaj/94c9ea71d75d950b827850c2bd0677e0/raw/overview.svg -f overview.svg ./generated/overview.svg
+       gh gist edit https://gist.githubusercontent.com/milankomaj/94c9ea71d75d950b827850c2bd0677e0/raw/languages.svg -f languages.svg ./generated/languages.svg
+
 
 
     - name: E-build & shell-x@v0.3
