@@ -56,12 +56,13 @@ jobs:
        ls -lh ${{ github.workspace }}/generated
        cat ${{ github.workspace }}/generated/overview.svg
        cat ${{ github.workspace }}/generated/languages.svg
-       rm $GITHUB_TOKEN
+       unset $GITHUB_TOKEN
 
     - name: upload to gist
       id: upload
       working-directory: ${{ github.workspace }}/generated
       run: |
+       unset $GITHUB_TOKEN
        echo ${{secrets.ACCESS_TOKEN}} | gh auth login --with-token
        count=$(gh api gists --jq length)
        echo $count
