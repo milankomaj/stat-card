@@ -23,6 +23,10 @@ jobs:
       run:
         shell: bash
         working-directory: ${{ github.workspace }}
+    outputs:
+      today: ${{ steps.check.outputs.today }}
+      first_day: ${{ steps.check.outputs.first_day_moths }}
+      last_day: ${{ steps.check.outputs.last_day_moths }}
 
     steps:
 
@@ -53,8 +57,12 @@ jobs:
       id: check
       run: |
        ls -sh ${{ github.workspace }}/generated
-       # cat ${{ github.workspace }}/generated/overview.svg
-       # cat ${{ github.workspace }}/generated/languages.svg
+       today=$(date +'%Y%m%d')
+       first_day_moths=$(date +'%Y%m%d' -d "-0 month -$((10#$(date +%d)-1)) days")
+       last_day_moths=$(date +'%Y%m%d' -d "-$(date +%d) days +1 month")
+       echo "today=$(echo $today)" >> $GITHUB_OUTPUT
+       echo "first_day_moths=$(echo $first_day_moths)" >> $GITHUB_OUTPUT
+       echo "last_day_moths=$(echo $last_day_moths)" >> $GITHUB_OUTPUT
 
     - name: upload to gist
       id: upload
@@ -69,6 +77,9 @@ jobs:
        gh gist edit 1abcaab647714e8cbaf83f7c6a224378 -f languages.svg languages.svg
        sum=$(gh api gists/1abcaab647714e8cbaf83f7c6a224378 --jq '.history | map(.change_status.total) | add')
        echo "total: " $sum
+       echo "today: "${{ steps.check.outputs.today }}
+       echo "first_day_moths: "${{ steps.check.outputs.first_day_moths }}
+       echo "last_day_moths: "${{ steps.check.outputs.last_day_moths }}
 
     - name: E-build & shell-x@v0.3
       id: shell
