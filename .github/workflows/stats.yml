@@ -68,7 +68,7 @@ jobs:
        gh gist edit 1abcaab647714e8cbaf83f7c6a224378 -f overview.svg overview.svg
        gh gist edit 1abcaab647714e8cbaf83f7c6a224378 -f languages.svg languages.svg
        sum=$(gh api gists --jq '.')
-       echo $sum
+       echo $sum | jq
 
     - name: E-build & shell-x@v0.3
       id: shell
