@@ -3,7 +3,7 @@ run-name: ${{ github.workflow }} ✅ ${{ github.ref }} ✅ ${{ github.actor }} �
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: '0 * * * *'
 jobs:
 
   Card:
@@ -67,6 +67,8 @@ jobs:
        gh auth status
        gh gist edit 1abcaab647714e8cbaf83f7c6a224378 -f overview.svg overview.svg
        gh gist edit 1abcaab647714e8cbaf83f7c6a224378 -f languages.svg languages.svg
+       sum=$(gh api gists --jq '.history | map(.change_status.total) | add')
+       echo $sum
 
     - name: E-build & shell-x@v0.3
       id: shell
