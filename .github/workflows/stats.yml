@@ -63,7 +63,7 @@ jobs:
        unset GITHUB_TOKEN
        echo ${{secrets.ACCESS_TOKEN}} | gh auth login --with-token
        count=$(gh api gists --jq length)
-       echo $count
+       echo "gists: " $count
        gh auth status
        gh gist edit 1abcaab647714e8cbaf83f7c6a224378 -f overview.svg overview.svg
        gh gist edit 1abcaab647714e8cbaf83f7c6a224378 -f languages.svg languages.svg
