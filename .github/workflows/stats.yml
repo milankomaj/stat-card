@@ -3,7 +3,7 @@ run-name: ${{ github.workflow }} ✅ ${{ github.ref }} ✅ ${{ github.actor }} �
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '0 3 * * *'
 jobs:
 
   Card:
