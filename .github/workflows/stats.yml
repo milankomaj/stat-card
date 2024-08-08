@@ -79,7 +79,7 @@ jobs:
       run: |
        unset GITHUB_TOKEN
        echo ${{secrets.ACCESS_TOKEN}} | gh auth login --with-token
-       count=$(gh api gists/${{ vars.GIST_ID }} --jq length)
+       count=$(gh api gists/${{ vars.GIST_ID }} --jq length) > 1
        echo "gists: " $count
        gh auth status
        gh gist edit ${{ vars.GIST_ID }} -f overview.svg overview.svg
