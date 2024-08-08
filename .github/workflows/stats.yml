@@ -30,7 +30,6 @@ jobs:
       today: ${{ steps.context.outputs.today }}
       first_day: ${{ steps.context.outputs.first_day_moths }}
       last_day: ${{ steps.context.outputs.last_day_moths }}
-
     steps:
 
     - name: context
