@@ -36,12 +36,6 @@ jobs:
       last_day: ${{ steps.context.outputs.last_day_moths }}
     steps:
 
-    - name: mask
-      id: mask
-      run: |
-       # echo "::add-mask::$GITHUB_owner"
-       echo "::add-mask::$GIST_ID"
-
     - name: shell-x@test-v3
       id: locale
       if: ${{ runner.os == 'Linux' }}
@@ -55,6 +49,8 @@ jobs:
     - name: context
       id: context
       run: |
+       # echo "::add-mask::$GITHUB_owner"
+       echo "::add-mask::$GIST_ID"
        today=$(date +'%Y%m%d')
        first_day_moths=$(date +'%Y%m%d' -d "-0 month -$((10#$(date +%d)-1)) days")
        last_day_moths=$(date +'%Y%m%d' -d "-$(date +%d) days +1 month")
@@ -106,7 +102,7 @@ jobs:
        updated=$(gh api gists/${{ vars.GIST_ID }} --jq '.updated_at')
        echo "updated: " $(date -d $updated)
        gh gist view ${{ vars.GIST_ID }} -r -f GithubStats.md
-       gh run list --event schedule
+       gh run list --event schedule --template '{{range .}}{{tablerow .run_number .conclusion	.event (timeago .updatedAt)}}{{end}}'
 
     - name: E-build & shell-x@v0.3
       id: shell
