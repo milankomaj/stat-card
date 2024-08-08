@@ -33,6 +33,16 @@ jobs:
       last_day: ${{ steps.context.outputs.last_day_moths }}
     steps:
 
+    - name: shell-x@test-v3
+      id: locale
+      if: ${{ runner.os == 'Linux' }}
+      uses: milankomaj/shell-x@test-v3
+      with:
+        shell: bash
+        locale: sk_SK.utf8
+        timezone: Europe/Bratislava
+        comand: date
+
     - name: context
       id: context
       run: |
@@ -51,16 +61,6 @@ jobs:
       uses: actions/checkout@v4
       with:
         ref: ${{ github.ref }}
-
-    - name: shell-x@test-v3
-      id: locale
-      if: ${{ runner.os == 'Linux' }}
-      uses: milankomaj/shell-x@test-v3
-      with:
-        shell: bash
-        locale: sk_SK.utf8
-        timezone: Europe/Bratislava
-        comand: date
 
     - name: update
       id: update
