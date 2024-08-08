@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 3 * * *'
+  pull_request_target:
+
 jobs:
 
   Card:
@@ -18,25 +20,36 @@ jobs:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       ACCESS_TOKEN: ${{secrets.ACCESS_TOKEN}}
       GITHUB_owner: ${{github.repository_owner}}
+      GIST_ID: ${{ vars.GIST_ID }}
       FORCE_COLOR: true
     defaults:
       run:
         shell: bash
         working-directory: ${{ github.workspace }}
     outputs:
-      today: ${{ steps.check.outputs.today }}
-      first_day: ${{ steps.check.outputs.first_day_moths }}
-      last_day: ${{ steps.check.outputs.last_day_moths }}
+      today: ${{ steps.context.outputs.today }}
+      first_day: ${{ steps.context.outputs.first_day_moths }}
+      last_day: ${{ steps.context.outputs.last_day_moths }}
 
     steps:
+
+    - name: context
+      id: context
+      run: |
+       # echo "::add-mask::$GITHUB_owner"
+       echo "::add-mask::$GIST_ID"
+       today=$(date +'%Y%m%d')
+       first_day_moths=$(date +'%Y%m%d' -d "-0 month -$((10#$(date +%d)-1)) days")
+       last_day_moths=$(date +'%Y%m%d' -d "-$(date +%d) days +1 month")
+       echo "today=$(echo $today)" >> $GITHUB_OUTPUT
+       echo "first_day_moths=$(echo $first_day_moths)" >> $GITHUB_OUTPUT
+       echo "last_day_moths=$(echo $last_day_moths)" >> $GITHUB_OUTPUT
 
     - name: checkout ${{ github.ref }}
       id: checkout
       uses: actions/checkout@v4
       with:
         ref: ${{ github.ref }}
-
-    # - run: echo "::add-mask::$GITHUB_owner"
 
     - name: shell-x@v0.3
       id: locale
@@ -57,12 +70,9 @@ jobs:
       id: check
       run: |
        ls -sh ${{ github.workspace }}/generated
-       today=$(date +'%Y%m%d')
-       first_day_moths=$(date +'%Y%m%d' -d "-0 month -$((10#$(date +%d)-1)) days")
-       last_day_moths=$(date +'%Y%m%d' -d "-$(date +%d) days +1 month")
-       echo "today=$(echo $today)" >> $GITHUB_OUTPUT
-       echo "first_day_moths=$(echo $first_day_moths)" >> $GITHUB_OUTPUT
-       echo "last_day_moths=$(echo $last_day_moths)" >> $GITHUB_OUTPUT
+       echo "today: "${{ steps.context.outputs.today }}
+       echo "first_day_moths: "${{ steps.context.outputs.first_day_moths }}
+       echo "last_day_moths: "${{ steps.context.outputs.last_day_moths }}
 
     - name: upload to gist
       id: upload
@@ -70,20 +80,18 @@ jobs:
       run: |
        unset GITHUB_TOKEN
        echo ${{secrets.ACCESS_TOKEN}} | gh auth login --with-token
-       count=$(gh api gists --jq length)
+       count=$(gh api gists/${{ vars.GIST_ID }} --jq length)
        echo "gists: " $count
        gh auth status
-       gh gist edit 1abcaab647714e8cbaf83f7c6a224378 -f overview.svg overview.svg
-       gh gist edit 1abcaab647714e8cbaf83f7c6a224378 -f languages.svg languages.svg
-       sum=$(gh api gists/1abcaab647714e8cbaf83f7c6a224378 --jq '.history | map(.change_status.total) | add')
+       gh gist edit ${{ vars.GIST_ID }} -f overview.svg overview.svg
+       gh gist edit ${{ vars.GIST_ID }} -f languages.svg languages.svg
+       gh api gists/${{ vars.GIST_ID }} --patch --json '{"files": {"GithubStats.md": {"content": "## Github Stats.\n#### ${{ steps.context.outputs.today }}"}}}'
+       sum=$(gh api gists/${{ vars.GIST_ID }} --jq '.history | map(.change_status.total) | add')
        echo "total: " $sum
-       echo "today: "${{ steps.check.outputs.today }}
-       echo "first_day_moths: "${{ steps.check.outputs.first_day_moths }}
-       echo "last_day_moths: "${{ steps.check.outputs.last_day_moths }}
 
     - name: E-build & shell-x@v0.3
       id: shell
-      if: ${{ runner.os != 'Linux' }}
+      if: github.event.pull_request
       uses: milankomaj/shell-x@v0.3
       with:
         shell: bash
