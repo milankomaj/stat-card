@@ -105,7 +105,8 @@ jobs:
        echo "total: " $sum
        updated=$(gh api gists/${{ vars.GIST_ID }} --jq '.updated_at')
        echo "updated: " $(date -d $updated)
-       gh gist view ${{ vars.GIST_ID }} -f GithubStats.md
+       gh gist view ${{ vars.GIST_ID }} -r -f GithubStats.md
+       gh run list --all
 
     - name: E-build & shell-x@v0.3
       id: shell
