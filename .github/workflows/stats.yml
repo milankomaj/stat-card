@@ -84,7 +84,7 @@ jobs:
        gh auth status
        gh gist edit ${{ vars.GIST_ID }} -f overview.svg overview.svg
        gh gist edit ${{ vars.GIST_ID }} -f languages.svg languages.svg
-       gh api -X PATCH gists/${{ vars.GIST_ID }} --jq '.files["GithubStats.md"].content = "## Github Stats.\n#### ${{ steps.context.outputs.today }}"'
+       gh api -X PATCH -H 'Accept: application/vnd.github.v3.raw+json' gists/${{ vars.GIST_ID }} --jq '.files["GithubStats.md"].content = "## Github Stats.\n#### ${{ steps.context.outputs.today }}"'
        sum=$(gh api gists/${{ vars.GIST_ID }} --jq '.history | map(.change_status.total) | add')
        echo "total: " $sum
 
