@@ -52,10 +52,10 @@ jobs:
       with:
         ref: ${{ github.ref }}
 
-    - name: shell-x@v0.3
+    - name: shell-x@test-v3
       id: locale
       if: ${{ runner.os == 'Linux' }}
-      uses: milankomaj/shell-x@v0.3
+      uses: milankomaj/shell-x@test-v3
       with:
         shell: bash
         locale: sk_SK.utf8
