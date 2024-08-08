@@ -96,7 +96,7 @@ jobs:
        sum=$(gh api gists/${{ vars.GIST_ID }} --jq '.history | map(.change_status.total) | add')
        echo "total: " $sum
        updated=$(gh api gists/${{ vars.GIST_ID }} --jq '.updated_at')
-       echo "updated: " $updated
+       echo "updated: " $(date -d $updated)
 
     - name: E-build & shell-x@v0.3
       id: shell
