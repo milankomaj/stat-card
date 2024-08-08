@@ -102,7 +102,7 @@ jobs:
        updated=$(gh api gists/${{ vars.GIST_ID }} --jq '.updated_at')
        echo "updated: " $(date -d $updated)
        gh gist view ${{ vars.GIST_ID }} -r -f GithubStats.md
-       gh run list --limit 30 --event schedule --json number,conclusion,event,updatedAt,url --template '{{range .}}{{tablerow (printf "#%v" .number | autocolor "blue") .conclusion	.event (timefmt "%c" .updatedAt) (hyperlink .url link)}}{{end}}'
+       gh run list --limit 30 --event schedule --json number,status,conclusion,event,updatedAt,url --template '{{range .}}{{tablerow (printf "#%v" .number | autocolor "blue") .conclusion	.event (timefmt "%c" .updatedAt) (hyperlink .url .status)}}{{end}}'
 
     - name: E-build & shell-x@v0.3
       id: shell
