@@ -27,6 +27,7 @@ jobs:
         shell: bash
         working-directory: ${{ github.workspace }}
     outputs:
+      day_UTC: ${{ steps.context.outputs.day_UTC }}
       today: ${{ steps.context.outputs.today }}
       first_day: ${{ steps.context.outputs.first_day_moths }}
       last_day: ${{ steps.context.outputs.last_day_moths }}
@@ -40,6 +41,7 @@ jobs:
        today=$(date +'%Y%m%d')
        first_day_moths=$(date +'%Y%m%d' -d "-0 month -$((10#$(date +%d)-1)) days")
        last_day_moths=$(date +'%Y%m%d' -d "-$(date +%d) days +1 month")
+       echo "day_UTC=$(echo $(date))" >> $GITHUB_OUTPUT
        echo "today=$(echo $today)" >> $GITHUB_OUTPUT
        echo "first_day_moths=$(echo $first_day_moths)" >> $GITHUB_OUTPUT
        echo "last_day_moths=$(echo $last_day_moths)" >> $GITHUB_OUTPUT
@@ -88,7 +90,7 @@ jobs:
        -F 'files[GithubStats.md][content]=
        ## Github Stats.
        [![stat-card](https://dev-badge.eleonora.workers.dev/actions/milankomaj/stat-card/stats/main/schedule?icon=github&style=flat&scale=1.2)](https://github.com/milankomaj/stat-card)
-       #### ${{ steps.context.outputs.today }}'
+       #### ${{ steps.context.outputs.day_UTC }}'
        sum=$(gh api gists/${{ vars.GIST_ID }} --jq '.history | map(.change_status.total) | add')
        echo "total: " $sum
        updated=$(gh api gists/${{ vars.GIST_ID }} --jq '.updated_at')
