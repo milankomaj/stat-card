@@ -90,7 +90,8 @@ jobs:
        -F 'files[GithubStats.md][content]=
        ## Github Stats.
        [![stat-card](https://dev-badge.eleonora.workers.dev/actions/milankomaj/stat-card/stats/main/schedule?icon=github&style=flat&scale=1.2)](https://github.com/milankomaj/stat-card)
-       #### ${{ steps.context.outputs.day_UTC }}'
+       #### ${{ steps.context.outputs.day_UTC }}
+       #### ${{ steps.context.outputs.today }}'
        sum=$(gh api gists/${{ vars.GIST_ID }} --jq '.history | map(.change_status.total) | add')
        echo "total: " $sum
        updated=$(gh api gists/${{ vars.GIST_ID }} --jq '.updated_at')
