@@ -84,7 +84,7 @@ jobs:
        gh auth status
        gh gist edit ${{ vars.GIST_ID }} -f overview.svg overview.svg
        gh gist edit ${{ vars.GIST_ID }} -f languages.svg languages.svg
-       gh api -X PATCH gists/${{ vars.GIST_ID }} \
+       gh api --silent -X PATCH gists/${{ vars.GIST_ID }} \
        -F 'files[GithubStats.md][content]=
        ## Github Stats.
        ## [![stat-card](https://github.com/milankomaj/stat-card/actions/workflows/stats.yml/badge.svg?event=schedule)](https://github.com/milankomaj/stat-card/actions/workflows/stats.yml)
