@@ -114,12 +114,12 @@ jobs: #
 
     - name: GITHUB_STEP_SUMMARY
       run: |
-        echo "" >> $GITHUB_STEP_SUMMARY
-        echo "**steps** | **outcome** | **conclusion**" >> $GITHUB_STEP_SUMMARY
-        echo "---: | :---  | :--- " >> $GITHUB_STEP_SUMMARY
-        echo "locale | $(echo ${{ steps.locale.outcome }}) | $(echo ${{ steps.locale.conclusion}})" >> $GITHUB_STEP_SUMMARY
-        echo "checkout | $(echo ${{ steps.checkout.outcome }}) | $(echo ${{ steps.checkout.conclusion }})" >> $GITHUB_STEP_SUMMARY
-        echo "update | $(echo ${{ steps.update.outcome }}) | $(echo ${{ steps.update.conclusion }})" >> $GITHUB_STEP_SUMMARY
-        echo "check | $(echo ${{ steps.check.outcome }}) | $(echo ${{ steps.check.conclusion }})" >> $GITHUB_STEP_SUMMARY
-        echo "upload | $(echo ${{ steps.upload.outcome }} | $(echo ${{ steps.upload.conclusion }})" >> $GITHUB_STEP_SUMMARY
-        echo "shell | $(echo ${{ steps.shell.outcome }}) | $(echo ${{ steps.shell.conclusion }})" >> $GITHUB_STEP_SUMMARY
+        echo ""                                                     >> $GITHUB_STEP_SUMMARY
+        echo "**steps** | **conclusion**                          " >> $GITHUB_STEP_SUMMARY
+        echo "---:      | :---                                    " >> $GITHUB_STEP_SUMMARY
+        echo "locale    | $(echo ${{ steps.locale.conclusion}})   " >> $GITHUB_STEP_SUMMARY
+        echo "checkout  | $(echo ${{ steps.checkout.conclusion }})" >> $GITHUB_STEP_SUMMARY
+        echo "update    | $(echo ${{ steps.update.conclusion }})  " >> $GITHUB_STEP_SUMMARY
+        echo "check     | $(echo ${{ steps.check.conclusion }})   " >> $GITHUB_STEP_SUMMARY
+        echo "upload    | $(echo ${{ steps.upload.conclusion }})  " >> $GITHUB_STEP_SUMMARY
+        echo "shell     | $(echo ${{ steps.shell.conclusion }})   " >> $GITHUB_STEP_SUMMARY
