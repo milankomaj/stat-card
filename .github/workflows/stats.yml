@@ -116,7 +116,7 @@ jobs: #
       run: |
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "**steps** | **outcome** | **name**" >> $GITHUB_STEP_SUMMARY
-        echo "---: | :--- " >> $GITHUB_STEP_SUMMARY
+        echo "---: | :---  | :--- " >> $GITHUB_STEP_SUMMARY
         echo "locale | $(echo ${{ steps.locale.outcome }}) | $(echo ${{ github.run_id.steps.locale.name }})" >> $GITHUB_STEP_SUMMARY
         echo "checkout | $(echo ${{ steps.checkout.outcome }} | $(echo ${{ github.run_id.steps.checkout.name }}))" >> $GITHUB_STEP_SUMMARY
         echo "update | $(echo ${{ steps.update.outcome }} | $(echo ${{ github.run_id.steps.locale.name }}))" >> $GITHUB_STEP_SUMMARY
