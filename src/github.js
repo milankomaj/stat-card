@@ -28,8 +28,8 @@ const octokit = new ThrottleOctokit({
     error: console.error,
   },
   throttle: {
-    onSecondaryRateLimit: (retryAfter, options, octokit) => true,
-    onRateLimit: (retryAfter, options, octokit, retryCount) => true,
+    onSecondaryRateLimit: (retryAfter, options, octokit) => { return true; },
+    onRateLimit: (retryAfter, options, octokit, retryCount) => { return true; },
   },
 })
 
@@ -68,8 +68,6 @@ class GithubUser {
       state: 'open',
     });
     this.gistsAll = await octokit.paginate("GET /gists", {});
-
-    this.rateLimit = await octokit.request("GET /rate_limit", {});
 
     if (logs === 'default' && !process.env.CI) { util.startSpinnerAndTimer() } // 🔶
 
@@ -110,6 +108,7 @@ class GithubUser {
     this.progress = this.progressLangList[0];
     this.langList = this.progressLangList[1];
     this.graph = (this.sumA >= this.sumD) ? "△" : "▽";
+    this.rateLimit = await octokit.request("GET /rate_limit", {}); // 🟡
     this.rates = this.rateLimit.data;
     this.date = new Date(Math.floor(Date.now())).toLocaleString();
     this.langugeDate = "   (" + new Date(this.created).getUTCFullYear() + ")"
