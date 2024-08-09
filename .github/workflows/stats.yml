@@ -115,35 +115,11 @@ jobs: #
     - name: GITHUB_STEP_SUMMARY
       run: |
         echo "" >> $GITHUB_STEP_SUMMARY
-        echo "**steps** | **outcome** | **name**" >> $GITHUB_STEP_SUMMARY
+        echo "**steps** | **outcome** | **conclusion**" >> $GITHUB_STEP_SUMMARY
         echo "---: | :---  | :--- " >> $GITHUB_STEP_SUMMARY
-        echo "locale | $(echo ${{ steps.locale.outcome }}) | $(echo ${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
-        echo "checkout | $(echo ${{ steps.checkout.outcome }}) | $(echo ${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
-        echo "update | $(echo ${{ steps.update.outcome }}) | $(echo ${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
-        echo "check | $(echo ${{ steps.check.outcome }}) | $(echo ${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
-        echo "upload | $(echo ${{ steps.upload.outcome }} | $(echo ${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
-        echo "shell | $(echo ${{ steps.shell.outcome }}) | $(echo ${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
-        echo "----------------------------------------"
-        echo github=${{ github }}
-        echo github.action=${{ github.action }}
-        echo github.action_path=${{ github.action_path }}
-        echo github.actor=${{ github.actor }}
-        echo github.base_ref=${{ github.base_ref }}
-        echo github.event=${{ github.event }}
-        echo github.event_name=${{ github.event_name }}
-        echo github.event_path=${{ github.event_path }}
-        echo github.head_ref=${{ github.head_ref }}
-        echo github.job=${{ github.job }}
-        echo github.ref=${{ github.ref }}
-        echo github.ref_name=${{ github.ref_name }}
-        echo github.ref_protected=${{ github.ref_protected }}
-        echo github.ref_type=${{ github.ref_type }}
-        echo github.repository=${{ github.repository }}
-        echo github.run_id=${{ github.run_id }}
-        echo github.run_number=${{ github.run_number }}
-        echo github.run_attempt=${{ github.run_attempt }}
-        echo github.server_url=${{ github.server_url }}
-        echo github.sha=${{ github.sha }}
-        echo github.workflow=${{ github.workflow }}
-        echo github.repository_owner=${{ github.repository_owner }}
+        echo "locale | $(echo ${{ steps.locale.outcome }}) | $(echo ${{ steps.locale.conclusion}})" >> $GITHUB_STEP_SUMMARY
+        echo "checkout | $(echo ${{ steps.checkout.outcome }}) | $(echo ${{ steps.checkout.conclusion }})" >> $GITHUB_STEP_SUMMARY
+        echo "update | $(echo ${{ steps.update.outcome }}) | $(echo ${{ steps.update.conclusion }})" >> $GITHUB_STEP_SUMMARY
+        echo "check | $(echo ${{ steps.check.outcome }}) | $(echo ${{ steps.check.conclusion }})" >> $GITHUB_STEP_SUMMARY
+        echo "upload | $(echo ${{ steps.upload.outcome }} | $(echo ${{ steps.upload.conclusion }})" >> $GITHUB_STEP_SUMMARY
+        echo "shell | $(echo ${{ steps.shell.outcome }}) | $(echo ${{ steps.shell.conclusion }})" >> $GITHUB_STEP_SUMMARY
