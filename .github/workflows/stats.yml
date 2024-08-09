@@ -111,3 +111,15 @@ jobs: #
           ls -slh ${{ github.workspace }}/generated &&
           cat ${{ github.workspace }}/generated/overview.svg &&
           cat ${{ github.workspace }}/generated/languages.svg
+
+    - name: GITHUB_STEP_SUMMARY
+      run: |
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**steps** | **outcome** | **name**" >> $GITHUB_STEP_SUMMARY
+        echo "---: | :--- " >> $GITHUB_STEP_SUMMARY
+        echo "locale | $(echo ${{ steps.locale.outcome }}) | $(echo ${{ github.run_id.steps.locale.name }})" >> $GITHUB_STEP_SUMMARY
+        echo "checkout | $(echo ${{ steps.checkout.outcome }} | $(echo ${{ github.run_id.steps.checkout.name }}))" >> $GITHUB_STEP_SUMMARY
+        echo "update | $(echo ${{ steps.update.outcome }} | $(echo ${{ github.run_id.steps.locale.name }}))" >> $GITHUB_STEP_SUMMARY
+        echo "check | $(echo ${{ steps.check.outcome }} | $(echo ${{ github.run_id.steps.check.name }}))" >> $GITHUB_STEP_SUMMARY
+        echo "upload | $(echo ${{ steps.upload.outcome }} | $(echo ${{ github.run_id.steps.upload.name }}))" >> $GITHUB_STEP_SUMMARY
+        echo "shell | $(echo ${{ steps.shell.outcome }} | $(echo ${{ github.run_id.steps.shell.name }}))" >> $GITHUB_STEP_SUMMARY
