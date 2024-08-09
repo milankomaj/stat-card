@@ -1,14 +1,12 @@
 name: stat-card
 run-name: ${{ github.workflow }} ✅ ${{ github.ref }} ✅ ${{ github.actor }} ✅ ${{ github.event_name}}
-on:
+on: #
   workflow_dispatch:
   schedule:
     - cron: '0 3 * * *'
   pull_request_target:
-
-jobs:
-
-  Card:
+jobs: #
+  Card: #
     name: Card
     continue-on-error: false
     strategy:
@@ -23,17 +21,16 @@ jobs:
       GIST_ID: ${{ vars.GIST_ID }}
       FORCE_COLOR: true
       CLICOLOR_FORCE: true
-
     defaults:
       run:
         shell: bash
         working-directory: ${{ github.workspace }}
     outputs:
-      day_UTC: ${{ steps.context.outputs.day_UTC }}
-      today: ${{ steps.context.outputs.today }}
-      first_day: ${{ steps.context.outputs.first_day_moths }}
-      last_day: ${{ steps.context.outputs.last_day_moths }}
-    steps:
+      day_UTC: ${{ steps.check.outputs.day_UTC }}
+      today: ${{ steps.check.outputs.today }}
+      first_day: ${{ steps.check.outputs.first_day_moths }}
+      last_day: ${{ steps.check.outputs.last_day_moths }}
+    steps: #
 
     - name: shell-x@test-v3
       id: locale
@@ -44,19 +41,6 @@ jobs:
         locale: sk_SK.utf8
         timezone: Europe/Bratislava
         comand: date
-
-    - name: context
-      id: context
-      run: |
-       # echo "::add-mask::$GITHUB_owner"
-       echo "::add-mask::$GIST_ID"
-       today=$(date +'%Y%m%d')
-       first_day_moths=$(date +'%Y%m%d' -d "-0 month -$((10#$(date +%d)-1)) days")
-       last_day_moths=$(date +'%Y%m%d' -d "-$(date +%d) days +1 month")
-       echo "day_UTC=$(echo $(date))" >> $GITHUB_OUTPUT
-       echo "today=$(echo $today)" >> $GITHUB_OUTPUT
-       echo "first_day_moths=$(echo $first_day_moths)" >> $GITHUB_OUTPUT
-       echo "last_day_moths=$(echo $last_day_moths)" >> $GITHUB_OUTPUT
 
     - name: checkout ${{ github.ref }}
       id: checkout
@@ -74,10 +58,15 @@ jobs:
       id: check
       run: |
        ls -sh ${{ github.workspace }}/generated
-       echo "day_UTC: "${{ steps.context.outputs.day_UTC }}
-       echo "today: "${{ steps.context.outputs.today }}
-       echo "first_day_moths: "${{ steps.context.outputs.first_day_moths }}
-       echo "last_day_moths: "${{ steps.context.outputs.last_day_moths }}
+       # echo "::add-mask::$GITHUB_owner"
+       echo "::add-mask::$GIST_ID"
+       today=$(date +'%Y%m%d')
+       first_day_moths=$(date +'%Y%m%d' -d "-0 month -$((10#$(date +%d)-1)) days")
+       last_day_moths=$(date +'%Y%m%d' -d "-$(date +%d) days +1 month")
+       echo "day_UTC=$(echo $(date))" >> $GITHUB_OUTPUT
+       echo "today=$(echo $today)" >> $GITHUB_OUTPUT
+       echo "first_day_moths=$(echo $first_day_moths)" >> $GITHUB_OUTPUT
+       echo "last_day_moths=$(echo $last_day_moths)" >> $GITHUB_OUTPUT
 
     - name: upload to gist
       id: upload
@@ -94,8 +83,8 @@ jobs:
        -F 'files[GithubStats.md][content]=
        ## Github Stats.
        [![stat-card](https://dev-badge.eleonora.workers.dev/actions/milankomaj/stat-card/stats/main/schedule?icon=github&style=flat&scale=1.2)](https://github.com/milankomaj/stat-card)
-       #### ${{ steps.context.outputs.day_UTC }}
-       #### ${{ steps.context.outputs.today }}'
+       #### ${{ steps.check.outputs.day_UTC }}
+       #### ${{ steps.check.outputs.today }}'
        sum=$(gh api gists/${{ vars.GIST_ID }} --jq '.history | map(.change_status.total) | add')
        echo "total: " $sum
        updated=$(gh api gists/${{ vars.GIST_ID }} --jq '.updated_at')
@@ -104,7 +93,6 @@ jobs:
        gh run list --limit 30 --event schedule --json number,name,status,conclusion,event,updatedAt,url --template \
        '{{tablerow "number" "conclusion" "event" "updatedAt" "status" | autocolor "yelow"}}
        {{range .}}{{tablerow (printf "#%v" .number | autocolor "blue") .conclusion	.event .updatedAt .status}}{{end}}'
-
 
     - name: E-build & shell-x@v0.3
       id: shell
