@@ -18,7 +18,7 @@ jobs:
     timeout-minutes: 10
     env:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      ACCESS_TOKEN: ${{secrets.ACCESS_TOKEN}}
+      GH_TOKEN: ${{secrets.GH_TOKEN}}
       GITHUB_owner: ${{github.repository_owner}}
       GIST_ID: ${{ vars.GIST_ID }}
       FORCE_COLOR: true
@@ -83,7 +83,7 @@ jobs:
       id: upload
       working-directory: ${{ github.workspace }}/generated
       run: |
-       unset GITHUB_TOKEN
+       # unset GITHUB_TOKEN
        echo ${{secrets.ACCESS_TOKEN}} | gh auth login --with-token
        count=$(gh api gists/${{ vars.GIST_ID }} --jq length)
        (($count>1)) && echo "gist exist :" $count

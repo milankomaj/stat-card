@@ -6,7 +6,7 @@ import { retry } from "@octokit/plugin-retry";
 import { paginateGraphQL } from "@octokit/plugin-paginate-graphql";
 import { lang } from './github-lang-colors.js';
 console.log("✅ Date:", util.color.randomColorANSI(new Date(Date.now()).toLocaleDateString())) // toLocaleString
-const token = process.env.ACCESS_TOKEN //🔶 node and action
+const token = process.env.GH_TOKEN //🔶 node and action
 
 
 const args = process.argv.slice(2); //🔶  Remove node and script paths
