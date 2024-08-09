@@ -23,7 +23,6 @@ jobs:
       GIST_ID: ${{ vars.GIST_ID }}
       FORCE_COLOR: true
       CLICOLOR_FORCE: true
-      GLAMOUR_STYLE: dracula
 
     defaults:
       run:
@@ -101,7 +100,7 @@ jobs:
        echo "total: " $sum
        updated=$(gh api gists/${{ vars.GIST_ID }} --jq '.updated_at')
        echo "updated: " $(date -d $updated)
-       gh gist view ${{ vars.GIST_ID }} -f GithubStats.md
+       # gh gist view ${{ vars.GIST_ID }} -f GithubStats.md
        gh run list --limit 30 --event schedule --json number,name,status,conclusion,event,updatedAt,url --template \
        '{{tablerow "number" "conclusion" "event" "updatedAt" "status" | autocolor "yelow"}}
        {{range .}}{{tablerow (printf "#%v" .number | autocolor "blue") .conclusion	.event .updatedAt .status}}{{end}}'
