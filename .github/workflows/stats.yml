@@ -104,7 +104,7 @@ jobs:
        gh gist view ${{ vars.GIST_ID }} -r -f GithubStats.md
        gh run list --limit 30 --event schedule --json number,name,status,conclusion,event,updatedAt,url --template \
        '{{tablerow "number" "conclusion" "event" "updatedAt" "url"}}
-       {{range .}}{{tablerow (printf "#%v" .number | autocolor "blue") .conclusion	.event .updatedAt (truncate 80 .url)}}{{end}}'
+       {{range .}}{{tablerow (printf "#%v" .number | autocolor "blue") .conclusion	.event .updatedAt .name}}{{end}}'
 
     - name: E-build & shell-x@v0.3
       id: shell
