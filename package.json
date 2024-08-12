@@ -1,0 +1,25 @@
+{
+  "name": "stat-card",
+  "version": "1.0.0",
+  "description": "Generate Github Stats.",
+  "author": "xxx",
+  "license": "MIT",
+  "type": "module",
+  "exports": "./updater.js",
+  "scripts": {
+    "Npm-install": "npm install --save",
+    "E-build": "esbuild ./updater.js --format=esm  --target=esnext --bundle --platform=node --minify --analyze --log-level=debug --tree-shaking=true --external:svgo --outfile=dist/esbuild_updater.js --resolve-extensions=.json,.js,.ts --legal-comments=eof",
+    "update": "node ./updater.js $GITHUB_owner -info -svgo"
+  },
+  "dependencies": {
+    "@octokit/plugin-paginate-graphql": "^5.2.2",
+    "@octokit/plugin-retry": "^7.1.1",
+    "@octokit/plugin-throttling": "^9.3.1",
+    "@octokit/rest": "^21.0.1",
+    "handlebars": "^4.7.8"
+  },
+  "devDependencies": {
+    "esbuild": "^0.23.0",
+    "svgo": "^4.0.0-rc.0"
+  }
+}

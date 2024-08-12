@@ -1,0 +1,157 @@
+name: stat-card
+run-name: ${{ github.workflow }} ✅ ${{ github.ref }} ✅ ${{ github.actor }} ✅ ${{ github.event_name}}
+on: #
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *'
+  pull_request_target:
+jobs: #
+  Card: #
+    name: Card
+    continue-on-error: false
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      GH_TOKEN: ${{secrets.GH_TOKEN}}
+      GITHUB_owner: ${{github.repository_owner}}
+      GIST_ID: ${{ vars.GIST_ID }}
+      FORCE_COLOR: 1
+      CLICOLOR_FORCE: 1
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ github.workspace }}
+    outputs:
+      day_UTC: ${{ steps.check.outputs.day_UTC }}
+      today: ${{ steps.check.outputs.today }}
+      first_day: ${{ steps.check.outputs.first_day_moths }}
+      last_day: ${{ steps.check.outputs.last_day_moths }}
+      month_ago: ${{ steps.check.outputs.month_ago }}
+    steps: #
+
+    - name: shell-x@test-v3
+      id: locale
+      if: ${{ runner.os == 'Linux' }}
+      uses: milankomaj/shell-x@test-v3
+      with:
+        shell: bash
+        locale: sk_SK.utf8
+        timezone: Europe/Bratislava
+        comand: timedatectl
+
+
+    - name: checkout ${{ github.ref }}
+      id: checkout
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.ref }}
+
+    - name: update
+      id: update
+      run: |
+       npm install --save
+       npm run update
+
+    - name: check
+      id: check
+      run: |
+       ls -sh ${{ github.workspace }}/generated
+       # echo "::add-mask::$GITHUB_owner"
+       echo "::add-mask::$GIST_ID"
+       today=$(date +'%Y-%m-%d')
+       first_day_moths=$(date +'%Y-%m-%d' -d "-0 month -$((10#$(date +%d)-1)) days")
+       last_day_moths=$(date +'%Y-%m-%d' -d "-$(date +%d) days +1 month")
+       month_ago=$(date +'%Y-%m-%d' --date='1 month ago')
+       echo "day_UTC=$(echo $(date))" >> $GITHUB_OUTPUT
+       echo "today=$(echo $today)" >> $GITHUB_OUTPUT
+       echo "first_day_moths=$(echo $first_day_moths)" >> $GITHUB_OUTPUT
+       echo "last_day_moths=$(echo $last_day_moths)" >> $GITHUB_OUTPUT
+       echo "month_ago=$(echo $month_ago)" >> $GITHUB_OUTPUT
+
+    - name: upload to gist
+      id: upload
+      working-directory: ${{ github.workspace }}/generated
+      run: |
+       # unset GITHUB_TOKEN
+       # echo ${{secrets.ACCESS_TOKEN}} | gh auth login --with-token
+       count=$(gh api gists/${{ vars.GIST_ID }} --jq length)
+       (($count>1)) && echo "gist exist :" $count
+       gh auth status
+       gh gist edit ${{ vars.GIST_ID }} -f overview.svg overview.svg
+       gh gist edit ${{ vars.GIST_ID }} -f languages.svg languages.svg
+       gh api --silent -X PATCH gists/${{ vars.GIST_ID }} \
+       -F 'files[GithubStats.md][content]=
+       ## Github Stats.
+       [![stat-card](https://dev-badge.eleonora.workers.dev/actions/milankomaj/stat-card/stats/main/schedule?icon=github&style=flat&scale=1.2)](https://github.com/milankomaj/stat-card)
+       #### ${{ steps.check.outputs.day_UTC }}
+       #### ${{ steps.check.outputs.today }}'
+       sum=$(gh api gists/${{ vars.GIST_ID }} --jq '.history | map(.change_status.total) | add')
+       echo "total: " $sum
+       updated=$(gh api gists/${{ vars.GIST_ID }} --jq '.updated_at')
+       echo "updated: " $(date -d $updated)
+       gh run list --created '>=${{ steps.check.outputs.first_day_moths}}' --status completed --limit 31 --event schedule --json number,name,status,conclusion,event,updatedAt,url --template \
+       '{{tablerow ("number" | autocolor "yellow") ("conclusion" | autocolor "yellow") ("event" | autocolor "yellow") ("updatedAt" | autocolor "yellow") ("status" | autocolor "yellow")}}
+       {{range .}}{{tablerow (printf "#%v" .number | autocolor "blue") .conclusion	.event (timefmt "2006/01/02 15:04:05 MST" .updatedAt | autocolor "green") .status}}{{end}}'
+       echo "" >> $GITHUB_STEP_SUMMARY
+       echo "$(gh gist view ${{ vars.GIST_ID }} -f GithubStats.md)" >> $GITHUB_STEP_SUMMARY
+
+    - name: E-build & shell-x@v0.3
+      id: shell
+      if: github.event.pull_request
+      uses: milankomaj/shell-x@v0.3
+      with:
+        shell: bash
+        locale: sk_SK.utf8
+        timezone: Europe/Bratislava
+        comand:
+          sed -i '4d' ${{ github.workspace }}/updater.js &&
+          npm run E-build &&
+          rm -r ${{ github.workspace }}/node_modules &&
+          node ./dist/esbuild_updater.js ${{github.repository_owner}} -info &&
+          ls -slh ${{ github.workspace }}/dist &&
+          ls -slh ${{ github.workspace }}/generated &&
+          cat ${{ github.workspace }}/generated/overview.svg &&
+          cat ${{ github.workspace }}/generated/languages.svg
+
+    - name: README.md
+      id: readme
+      if: ${{ steps.check.outputs.today == steps.check.outputs.first_day_moths }}
+      run: |
+       rm -f ./.github/README.md
+       echo "" >> ./data.md
+       echo "<details><summary><strong>run list from: ${{ steps.check.outputs.month_ago }} to: ${{ steps.check.outputs.today }}</strong></summary>" >> ./data.md
+       echo "" >> ./data.md
+       echo "**number** | **conclusion** | **event** | **updatedAt** | **status** | **url**" >> ./data.md
+       echo "---: | :---  | :---  | :---  | :---  | :--- " >> ./data.md
+       gh run list --created '>=${{ steps.check.outputs.month_ago }}' --status completed --limit 31 --event schedule --json number,name,status,conclusion,event,updatedAt,url --jq \
+       '.[] | ["#\(.number)", .conclusion, .event, (.updatedAt | strptime("%Y-%m-%dT%H:%M:%SZ") | mktime | strflocaltime("%Y-%m-%d %H:%M:%S %Z")), .status, "[*#\(.number)*](\(.url))"] | join("|")' >> ./data.md
+       echo "</details>" >> ./data.md
+       cat ./README.md ./data.md  > ./.github/README.md
+       # cat ./.github/README.md
+       git config --global user.email ${{ secrets.EMAIL }}
+       git config --global user.name ${{github.repository_owner}}
+       git add ./.github/README.md
+       git commit -m "${{ steps.check.outputs.day_UTC }}" ./.github/README.md
+       git push
+
+    - name: GITHUB_STEP_SUMMARY
+      if:  ${{ always() }}
+      run: |
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo '```' >> $GITHUB_STEP_SUMMARY
+        echo "$(date)" >> $GITHUB_STEP_SUMMARY
+        echo '```' >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**steps** | **conclusion**" >> $GITHUB_STEP_SUMMARY
+        echo "---:      | :--- " >> $GITHUB_STEP_SUMMARY
+        echo "locale    | $(echo ${{ steps.locale.conclusion}})"    >> $GITHUB_STEP_SUMMARY
+        echo "checkout  | $(echo ${{ steps.checkout.conclusion }})" >> $GITHUB_STEP_SUMMARY
+        echo "update    | $(echo ${{ steps.update.conclusion }})"   >> $GITHUB_STEP_SUMMARY
+        echo "check     | $(echo ${{ steps.check.conclusion }})"    >> $GITHUB_STEP_SUMMARY
+        echo "upload    | $(echo ${{ steps.upload.conclusion }})"   >> $GITHUB_STEP_SUMMARY
+        echo "shell     | $(echo ${{ steps.shell.conclusion }})"    >> $GITHUB_STEP_SUMMARY
+        echo "readme    | $(echo ${{ steps.readme.conclusion }})"   >> $GITHUB_STEP_SUMMARY
