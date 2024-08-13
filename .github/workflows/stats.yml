@@ -13,6 +13,7 @@ jobs: #
       fail-fast: false
       max-parallel: 3
     runs-on: ubuntu-latest
+    if: github.repository == 'milankomaj/stat-card'
     timeout-minutes: 10
     env:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
