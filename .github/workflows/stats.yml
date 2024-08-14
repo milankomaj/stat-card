@@ -2,18 +2,8 @@ name: stat-card
 run-name: ${{ github.workflow }} ✅ ${{ github.ref }} ✅ ${{ github.actor }} ✅ ${{ github.event_name}}
 on: #
   workflow_dispatch:
-    inputs:
-      logLevel:
-        description: 'Log level'
-        required: false
-        default: '-info'
-        type: choice
-        options:
-          - '-info'
-          - '-debug'
-          - ' '
   schedule:
-    - cron: '*/6 * * * *'
+    - cron: '0 3 * * *'
   pull_request_target:
 jobs: #
   Card: #
@@ -29,7 +19,6 @@ jobs: #
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       GH_TOKEN: ${{secrets.GH_TOKEN}}
       GITHUB_owner: ${{github.repository_owner}}
-      LOG_LEVEL: ${{ github.event.inputs.logLevel }}
       GIST_ID: ${{ vars.GIST_ID }}
       FORCE_COLOR: 1
       CLICOLOR_FORCE: 1
