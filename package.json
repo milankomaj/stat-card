@@ -9,7 +9,7 @@
   "scripts": {
     "Npm-install": "npm install --save",
     "E-build": "esbuild ./updater.js --format=esm  --target=esnext --bundle --platform=node --minify --analyze --log-level=debug --tree-shaking=true --external:svgo --outfile=dist/esbuild_updater.js --resolve-extensions=.json,.js,.ts --legal-comments=eof",
-    "update": "node ./updater.js $GITHUB_owner -info -svgo"
+    "update": "node ./updater.js $GITHUB_owner $LOG_LEVEL -svgo"
   },
   "dependencies": {
     "@octokit/plugin-paginate-graphql": "^5.2.2",
