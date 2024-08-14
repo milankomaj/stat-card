@@ -75,6 +75,7 @@ jobs: #
 
     - name: upload to gist
       id: upload
+      if: steps.update.conclusion == 'success'
       working-directory: ${{ github.workspace }}/generated
       run: |
        # unset GITHUB_TOKEN
@@ -120,7 +121,7 @@ jobs: #
 
     - name: README.md
       id: readme
-      if: ${{ steps.check.outputs.today == steps.check.outputs.first_day_moths }}
+      if: ${{ steps.check.outputs.today == steps.check.outputs.first_day_moths && steps.update.conclusion == 'success' }}
       run: |
        rm -f ./.github/README.md
        echo "" >> ./data.md
