@@ -2,7 +2,7 @@
   "name": "stat-card",
   "version": "1.0.0",
   "description": "Generate Github Stats.",
-  "author": "xxx",
+  "author": "ctrlCctrlV",
   "license": "MIT",
   "type": "module",
   "exports": "./updater.js",
