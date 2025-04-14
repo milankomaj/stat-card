@@ -14,7 +14,7 @@
   "dependencies": {
     "@octokit/plugin-paginate-graphql": "^5.2.2",
     "@octokit/plugin-retry": "^7.1.1",
-    "@octokit/plugin-throttling": "^9.3.1",
+    "@octokit/plugin-throttling": "^10.0.0",
     "@octokit/rest": "^21.0.1",
     "handlebars": "^4.7.8"
   },
