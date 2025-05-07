@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from 'fs';
 import handlebars from 'handlebars';
 import GithubUser from './src/github.js';
-import SVGO from 'svgo'; // 🔶
+// import SVGO from 'svgo'; // 🔶
 // import nunjucks from 'nunjucks';
 //* nunjucks.configure({ autoescape: true });
 // import { networkInterfaces } from 'os';
@@ -10,9 +10,9 @@ import SVGO from 'svgo'; // 🔶
 // console.log("✅ process.argv:", process.argv)
 console.log("✅ process.env.CI:", process.env.CI)
 const args = process.argv.slice(2); //🔶  Remove node and script paths
-const argSvgo = String(args.includes('-svgo'));
-const useSvgo = argSvgo ? argSvgo : ''; //
-console.info("✅ useSvgo:", useSvgo)
+//const argSvgo = String(args.includes('-svgo'));
+//const useSvgo = argSvgo ? argSvgo : ''; //
+//console.info("✅ useSvgo:", useSvgo)
 
 let username = process.argv[2];
 let user = new GithubUser(username);
@@ -27,7 +27,8 @@ user.fetchContent()
 
 
         // Optimize overview SVG
-        if (useSvgo === 'true') {
+        /* 
+            if (useSvgo === 'true') {
             overviewString = SVGO.optimize(overviewString, {
                 path: './generated/overview.svg', // For debugging, optional
                 multipass: true,
@@ -45,7 +46,8 @@ user.fetchContent()
                     'sortAttrs'
                 ]
             }).data;
-        }
+        } 
+       */
         writeFileSync("./generated/overview.svg", overviewString);
 
         let languageTemplate = handlebars.compile(templateLanguages);
@@ -60,6 +62,7 @@ user.fetchContent()
 
 
         // Optimize languages SVG
+        /*
         if (useSvgo === 'true') {
             languageString = SVGO.optimize(languageString, {
                 path: './generated/languages.svg', // For debugging, optional
@@ -78,6 +81,7 @@ user.fetchContent()
                 ]
             }).data;
         }
+        */
         writeFileSync('./generated/languages.svg', languageString);
     })
     .catch((error) => {
