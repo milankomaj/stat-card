@@ -1,9 +1,7 @@
 import { readFileSync, writeFileSync } from 'fs';
 import handlebars from 'handlebars';
 import GithubUser from './src/github.js';
-import * as svgo from 'svgo';
-svgo.optimize('<svg></svg>');
-// import SVGO from 'svgo'; // 🔶
+import SVGO from 'svgo'; // 🔶
 // import nunjucks from 'nunjucks';
 //* nunjucks.configure({ autoescape: true });
 // import { networkInterfaces } from 'os';
