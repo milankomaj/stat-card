@@ -1,7 +1,8 @@
 import { readFileSync, writeFileSync } from 'fs';
 import handlebars from 'handlebars';
 import GithubUser from './src/github.js';
-import SVGO from 'svgo'; // 🔶
+import { optimize } from 'svgo';
+// import SVGO from 'svgo'; // 🔶
 // import nunjucks from 'nunjucks';
 //* nunjucks.configure({ autoescape: true });
 // import { networkInterfaces } from 'os';
@@ -29,7 +30,7 @@ user.fetchContent()
         // Optimize overview SVG
 
             if (useSvgo === 'true') {
-            overviewString = SVGO.optimize(overviewString, {
+            overviewString = optimize(overviewString, {
                 path: './generated/overview.svg', // For debugging, optional
                 multipass: true,
                 plugins: [
@@ -64,7 +65,7 @@ user.fetchContent()
         // Optimize languages SVG
 
         if (useSvgo === 'true') {
-            languageString = SVGO.optimize(languageString, {
+            languageString = optimize(languageString, {
                 path: './generated/languages.svg', // For debugging, optional
                 multipass: true,
                 plugins: [
