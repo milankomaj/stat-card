@@ -20,6 +20,6 @@
   },
   "devDependencies": {
     "esbuild": "^0.25.0",
-    "svgo": "^svgo@4.0.0-rc.4"
+    "svgo": "^4.0.0-rc.4"
   }
 }
