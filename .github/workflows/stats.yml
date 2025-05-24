@@ -2,8 +2,8 @@ name: stat-card
 run-name: ${{ github.workflow }} ✅ ${{ github.ref }} ✅ ${{ github.actor }} ✅ ${{ github.event_name}}
 on: #
   workflow_dispatch:
-  # schedule:
-    # - cron: '0 3 * * *'
+  schedule:
+    - cron: '0 3 * * *'
   pull_request_target:
 jobs: #
   Card: #
