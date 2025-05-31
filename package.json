@@ -12,7 +12,7 @@
     "update": "node ./updater.js $GITHUB_owner -info -svgo"
   },
   "dependencies": {
-    "@octokit/plugin-paginate-graphql": "^5.2.2",
+    "@octokit/plugin-paginate-graphql": "^6.0.0",
     "@octokit/plugin-retry": "^8.0.1",
     "@octokit/plugin-throttling": "^10.0.0",
     "@octokit/rest": "^22.0.0",
