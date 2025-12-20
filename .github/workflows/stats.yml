@@ -83,6 +83,7 @@ jobs: #
        count=$(gh api gists/${{ vars.GIST_ID }} --jq length)
        (($count>1)) && echo "gist exist :" $count
        gh auth status
+       sleep 2m
        gh gist edit ${{ vars.GIST_ID }} -f overview.svg overview.svg
        gh gist edit ${{ vars.GIST_ID }} -f languages.svg languages.svg
        gh api --silent -X PATCH gists/${{ vars.GIST_ID }} \
