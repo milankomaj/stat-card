@@ -80,7 +80,7 @@ jobs: #
       env:
         GIST_CONTENT: |
           ## Github Stats.
-          [![stat-card](https://dev-badge.eleonora.workers.dev)](https://github.com)
+          [![stat-card](https://dev-badge.eleonora.workers.dev/actions/milankomaj/stat-card/stats/main/schedule?icon=github&style=flat&scale=1.2&label=stat-card/schedule)](https://github.com/milankomaj/stat-card)
           #### ${{ steps.check.outputs.day_UTC }}
           #### ${{ steps.check.outputs.today }}
       run: |
