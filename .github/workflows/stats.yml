@@ -89,9 +89,11 @@ jobs: #
        count=$(gh api gists/${{ vars.GIST_ID }} --jq length)
        (($count>1)) && echo "gist exist :" $count
        gh auth status
+       OVERVIEW_CONTENT=$(cat overview.svg)
+       LANGUAGES_CONTENT=$(cat languages.svg)
        gh api --silent -X PATCH gists/${{ vars.GIST_ID }} \
-        -f "files[overview.svg][content]=@overview.svg" \
-        -f "files[languages.svg][content]=@languages.svg" \
+        -f "files[overview.svg][content]=$OVERVIEW_CONTENT" \
+        -f "files[languages.svg][content]=$LANGUAGES_CONTENT" \
         -F "files[GithubStats.md][content]=$GIST_CONTENT"
        sum=$(gh api gists/${{ vars.GIST_ID }} --jq '.history | map(.change_status.total) | add')
        echo "total: " $sum
