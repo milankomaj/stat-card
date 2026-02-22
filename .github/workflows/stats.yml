@@ -77,6 +77,12 @@ jobs: #
       id: upload
       if: steps.update.conclusion == 'success'
       working-directory: ${{ github.workspace }}/generated
+      env:
+        GIST_CONTENT: |
+          ## Github Stats.
+          [![stat-card](https://dev-badge.eleonora.workers.dev)](https://github.com)
+          #### ${{ steps.check.outputs.day_UTC }}
+          #### ${{ steps.check.outputs.today }}
       run: |
        # unset GITHUB_TOKEN
        # echo ${{secrets.ACCESS_TOKEN}} | gh auth login --with-token
@@ -86,7 +92,7 @@ jobs: #
        gh api --silent -X PATCH gists/${{ vars.GIST_ID }} \
         -f "files[overview.svg][content]=@overview.svg" \
         -f "files[languages.svg][content]=@languages.svg" \
-        -F "files[GithubStats.md][content]=## Github Stats.\n[![stat-card](https://dev-badge.eleonora.workers.dev)](https://github.com)\n#### ${{ steps.check.outputs.day_UTC }}\n#### ${{ steps.check.outputs.today }}"
+        -F "files[GithubStats.md][content]=$GIST_CONTENT"
        sum=$(gh api gists/${{ vars.GIST_ID }} --jq '.history | map(.change_status.total) | add')
        echo "total: " $sum
        updated=$(gh api gists/${{ vars.GIST_ID }} --jq '.updated_at')
