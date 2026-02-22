@@ -86,8 +86,7 @@ jobs: #
        gh api --silent -X PATCH gists/${{ vars.GIST_ID }} \
         -f "files[overview.svg][content]=@overview.svg" \
         -f "files[languages.svg][content]=@languages.svg" \
-        -F "files[GithubStats.md][content]=
-       ## Github Stats.
+        -F "files[GithubStats.md][content]=## Github Stats.
        [![stat-card](https://dev-badge.eleonora.workers.dev/actions/milankomaj/stat-card/stats/main/schedule?icon=github&style=flat&scale=1.2&label=stat-card/schedule)](https://github.com/milankomaj/stat-card)
        #### ${{ steps.check.outputs.day_UTC }}
        #### ${{ steps.check.outputs.today }}'
