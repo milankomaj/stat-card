@@ -331,7 +331,7 @@ class GithubUser {
               return { status: 204, data: [] };
             }
 
-          } while (response.status === 202 && retryCount < 50);
+          } while (response.status === 202 && retryCount < 20);
 
           if (response.status === 200 && Array.isArray(response.data)) {
             const userStat = response.data.find(item => item?.author?.login === username);
