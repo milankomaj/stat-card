@@ -303,9 +303,11 @@ class GithubUser {
 
     //  🟡🟡🟡 //
     async function fetchAllcontributors(username) {
+      const repoSummary = [];
+
       try {
         const contributorsPromises = reposName.map(async (repo) => {
-          let retryCount = 0; // Track retry attempts for "202" responses
+          let retryCount = 0;
           let response;
 
           do {
@@ -315,45 +317,84 @@ class GithubUser {
             });
 
             if (response.status === 202) {
-              const retryAfter = parseInt(response.headers["Retry-After"], 10) || 10; // Handle missing or invalid headers
+              const retryAfter = parseInt(response.headers["retry-after"], 10) || 10;
               octokit.log.info(
-                `${util.color.blue(response.status)} ` +
-                `${util.color.green(repo)} ` +
-                `(${util.color.blue("retry")} ${util.color.yellow((retryCount) + 1)}) ` +
-                `${util.color.green(retryAfter) + " s"} `
+                `${util.color.blue(response.status)} ${util.color.green(repo)} ` +
+                `(${util.color.blue("retry")} ${retryCount + 1}) waiting ${util.color.yellow(retryAfter + "s")}`
               );
               await new Promise((resolve) => setTimeout(resolve, retryAfter * 1000));
               retryCount++;
             }
-          } while (response.status === 202 && retryCount < 20); // Retry up to 10 times for "202"
-          // octokit.log.info("✅ response.headers:", response.headers)
-          return response; // Return the final response (200 or failed)
+
+            if (response.status === 204) {
+              repoSummary.push({ "Repository": repo, "Status": "⚪ Empty", "Commits": 0, "Additions (+)": 0, "Deletions (-)": 0, "Attempts": retryCount + 1 });
+              return { status: 204, data: [] };
+            }
+
+          } while (response.status === 202 && retryCount < 50);
+
+          if (response.status === 200 && Array.isArray(response.data)) {
+            const userStat = response.data.find(item => item?.author?.login === username);
+
+            let repoA = 0;
+            let repoD = 0;
+            let repoC = userStat ? (userStat.total || 0) : 0;
+
+            if (userStat?.weeks) {
+              userStat.weeks.forEach(week => {
+                repoA += (week.a || 0);
+                repoD += (week.d || 0);
+              });
+            }
+
+            repoSummary.push({
+              "Repository": repo,
+              "Status": "✅ OK",
+              "Commits": repoC,
+              "Additions (+)": repoA,
+              "Deletions (-)": repoD,
+              "Attempts": retryCount + 1
+            });
+          } else if (response.status === 202) {
+            repoSummary.push({ "Repository": repo, "Status": "❌ Timeout", "Commits": 0, "Additions (+)": 0, "Deletions (-)": 0, "Attempts": retryCount });
+          }
+
+          return response;
         });
 
         const contributorsResults = await Promise.all(contributorsPromises);
-        octokit.log.debug("✅ fetchAllcontributors.status:", (contributorsResults.flatMap(element => element.status)))
-        const contributors = contributorsResults.flatMap(result => result.data);
-        octokit.log.debug("✅ contributors hasOwn:login :", Object.entries(contributors).map(([index, total]) => ({
-          index,
-          total: total.total || "",
-          author: Object.values(total.author)[0] || ""
-        }))
-        )
-        const authenticate = (element => element.author ? element.author.login === username : '')
-        const contribU = Object.values(contributors).filter(authenticate)
-        // octokit.log.debug("✅ contribU counts:", (contribU.flatMap((counts) => counts.total)).reduce((a, b) => a + b, 0))
-        const contribUcounts = (contribU.flatMap((counts) => counts.total)).reduce((a, b) => a + b, 0)
-        const nA = (contribU.flatMap((counts) => counts.weeks)).map((counts) => counts.a)
-        const nD = (contribU.flatMap((counts) => counts.weeks)).map((counts) => counts.d)
-        octokit.log.debug("✅ nA.length,nD.length:", nA.length, nD.length)
-        octokit.log.debug("✅ lines:", "➕ added:", (nA), "➖ removed:", (nD))
-        const sumA = (nA).reduce((a, b) => a + b, 0)
-        octokit.log.debug("✅ sumA:", sumA)
-        const sumD = (nD).reduce((a, b) => a + b, 0)
-        octokit.log.debug("✅ sumD:", sumD)
-        return [sumA, sumD, contribUcounts]
+
+        // ZORADENIE: Zostupne podľa pridaných riadkov
+        repoSummary.sort((a, b) => b["Additions (+)"] - a["Additions (+)"]);
+
+        // VÝPIS TABUĽKY
+        octokit.log.info(`\n📊 Detail overview for: ${username} (Sorted by total repository activity)`);
+        console.table(repoSummary);
+
+        // Globálne súčty pre return
+        const allStats = contributorsResults
+          .filter(res => res && res.status === 200 && Array.isArray(res.data))
+          .flatMap(res => res.data);
+
+        const userStats = allStats.filter(item => item?.author?.login === username);
+
+        let totalCommits = 0, sumA = 0, sumD = 0;
+
+        userStats.forEach(stat => {
+          totalCommits += (stat.total || 0);
+          if (stat.weeks) {
+            stat.weeks.forEach(week => {
+              sumA += (week.a || 0);
+              sumD += (week.d || 0);
+            });
+          }
+        });
+
+        return [sumA, sumD, totalCommits];
+
       } catch (error) {
-        console.error(error)
+        console.error("Critical error:", error.message);
+        return [0, 0, 0];
       }
     }
   }
